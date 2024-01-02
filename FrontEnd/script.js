@@ -16,16 +16,19 @@ fetch("http://localhost:5678/api/works")
     console.log(works);
 
     for (let i = 0; i < works.length; i++) {
+
     const article = works[i];
+    const gallery = document.querySelector("#portfolio .gallery");
+    const projetElement = document.createElement("article");
 
     const imageElement = document.createElement ("img");
     imageElement.src=article.imageUrl;
     const titreElement = document.createElement ("p");
     titreElement.innerText = article.title;
   
-    const gallery = document.querySelector(".gallery");
-    gallery.appendChild(imageElement);
-    gallery.appendChild(titreElement);
+    gallery.appendChild(projetElement);
+    projetElement.appendChild(imageElement);
+    projetElement.appendChild(titreElement);
     
   }
 });
