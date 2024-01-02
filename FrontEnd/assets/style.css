@@ -187,3 +187,17 @@ footer nav ul {
 	margin: 2em
 }
 
+.filtres {
+
+	margin-top: 20px;
+	}
+	
+	
+	.button{
+		Width:585px;
+	Height:37px;
+	Top:812px;
+	Left:427px;
+	border-radius: 60px;
+	Border:1px;
+	}
