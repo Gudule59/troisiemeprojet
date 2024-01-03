@@ -32,3 +32,27 @@ fetch("http://localhost:5678/api/works")
     
   }
 });
+
+const boutonTous = document.querySelector(".btn-tous");
+
+boutonTous.addEventListener("click", function () {
+
+  });
+
+   const boutonobjet = document.querySelector(".btn-objet");
+
+boutonobjet.addEventListener("click", function () {
+
+   });
+
+   const boutonappartements = document.querySelector(".btn-appartements");
+
+boutonappartements.addEventListener("click", function () {
+
+});
+
+   const boutonhotel = document.querySelector(".btn-hotel");
+
+boutonhotel.addEventListener("click", function () {
+
+});
