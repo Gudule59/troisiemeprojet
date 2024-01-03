@@ -15,7 +15,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, button {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -25,7 +25,7 @@ time, mark, audio, video {
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
+footer, header, hgroup, menu, nav, section, button {
 	display: block;
 }
 body {
@@ -187,17 +187,29 @@ footer nav ul {
 	margin: 2em
 }
 
-.filtres {
+.filtre {
 
-	margin-top: 20px;
+	margin-bottom: 30px;
+	display: flex;
+	justify-content: center;
 	}
 	
-	
-	.button{
-		Width:585px;
+	button{
+		display: flex;
+	justify-content: center;
+	align-items: center;
+    Width:auto;
 	Height:37px;
-	Top:812px;
-	Left:427px;
+	border: #1D6154 1px solid;
 	border-radius: 60px;
-	Border:1px;
+	background-color: white;
+	color: #1D6154;
+	padding: 15px;
+	margin:5px;
+	cursor: pointer;
 	}
+
+	button:active, button:focus {
+		background-color: #1D6154;
+		color: white;
+	  }
