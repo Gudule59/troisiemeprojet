@@ -31,28 +31,29 @@ fetch("http://localhost:5678/api/works")
     projetElement.appendChild(titreElement);
     
   }
-});
+// construction des boutons 
 
-const boutonTous = document.querySelector(".btn-tous");
+ const boutonTous = document.querySelector(".btn-tous");
+ boutonTous.addEventListener("click", function () {
+ console.log(works);
+ 
+ });
 
-boutonTous.addEventListener("click", function () {
-
-  });
-
-   const boutonobjet = document.querySelector(".btn-objet");
-
-boutonobjet.addEventListener("click", function () {
-
-   });
-
-   const boutonappartements = document.querySelector(".btn-appartements");
-
-boutonappartements.addEventListener("click", function () {
+ const boutonObjets = document.querySelector(".btn-objets");
+ boutonObjets.addEventListener("click", function () {
+  console.log(works);
 
 });
 
-   const boutonhotel = document.querySelector(".btn-hotel");
+ const boutonappartements = document.querySelector(".btn-appartements");
+ boutonappartements.addEventListener("click", function () {
+  console.log(works);
 
-boutonhotel.addEventListener("click", function () {
+});
 
+  const boutonhotel = document.querySelector(".btn-hotels");
+  boutonhotel.addEventListener("click", function () {
+    console.log(works);
+    
+});
 });
