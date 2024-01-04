@@ -36,7 +36,25 @@ fetch("http://localhost:5678/api/works")
 
  const boutonTous = document.querySelector(".btn-tous");
  boutonTous.addEventListener("click", function () {
- console.log(works);
+ 
+
+  for (let i = 0; i < works.length; i++) {
+
+    const article = works[i];
+    const gallery = document.querySelector("#portfolio .gallery");
+    const projetElement = document.createElement("article");
+
+    const imageElement = document.createElement ("img");
+    imageElement.src=article.imageUrl;
+    const titreElement = document.createElement ("p");
+    titreElement.innerText = article.title;
+  
+
+    gallery.appendChild(projetElement);
+    projetElement.appendChild(imageElement);
+    projetElement.appendChild(titreElement);
+    
+  }
  
  });
 
@@ -54,7 +72,7 @@ fetch("http://localhost:5678/api/works")
 
   const boutonhotel = document.querySelector(".btn-hotels");
   boutonhotel.addEventListener("click", function () {
-    console.log(works);
+    document.querySelector("#portfolio .gallery").innerHTML = '';
     
 });
 });
