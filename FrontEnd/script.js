@@ -25,12 +25,7 @@ fetch("http://localhost:5678/api/works")
     imageElement.src=article.imageUrl;
     const titreElement = document.createElement ("p");
     titreElement.innerText = article.title;
-    const categoryId = document.createElement ("p");
-    titreElement.innerText = article.categoryId;
-    const categoryname = document.createElement ("p");
-    titreElement.innerText = article.category.name;
-    const category = document.createElement ("p");
-    titreElement.innerText = article.category;
+  
 
     gallery.appendChild(projetElement);
     projetElement.appendChild(imageElement);
