@@ -32,7 +32,6 @@ fetch("http://localhost:5678/api/works")
     projetElement.appendChild(titreElement);
     
   }
-// construction des boutons 
 
  });
 
@@ -43,6 +42,7 @@ fetch("http://localhost:5678/api/works")
 
 // variable (globale) permettant de stocker les données (issues de l'API) des travaux
 let categories;
+let works  ;
 
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
@@ -77,32 +77,14 @@ const getWorks = async () => {
   }
 };
 
-/**
- * Fonction qui affiche les travaux dans la page
- */
+// Fonction qui affiche les travaux dans la page
+
 const displayWorks = (works) => {
-  console.log(works);
-  // on peut maintenant afficher les travaux dans la page
+
 };
 
+//Fonction qui affiche les boutons de filtre dans la page
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Fonction qui affiche les boutons de filtre dans la page
- */
 const displayFilters = (categories) => {
   const filtre = document.querySelector('#portfolio .filtre');
 
@@ -110,52 +92,36 @@ const displayFilters = (categories) => {
   if (!boutonTousExistant) {
     const boutonTous = document.createElement('button');
     boutonTous.textContent = "Tous"; 
-    boutonTous.classList.add('boutonObjets'); // Ajoutez une classe pour les styles CSS ou pour la sélection en JavaScript si nécessaire
-    boutonTous.classList.add('boutonTous'); // Ajoutez une classe spécifique pour identifier le bouton "Tous"
+    boutonTous.classList.add('boutonObjets'); 
+    boutonTous.setAttribute('data-categorie-id', 'all'); 
     filtre.appendChild(boutonTous);
   }
 
- 
   categories.forEach((category) => {
     const bouton = document.createElement('button');
     bouton.textContent = category.name; 
     bouton.classList.add('boutonObjets'); 
     bouton.setAttribute('data-categorie-id', category.id); 
+    filtre.appendChild(bouton); 
 
-
-    // Écouteur d'événement pour gérer le clic sur le bouton de catégorie
     bouton.addEventListener('click', () => {
-      // Action à effectuer lors du clic sur un bouton de catégorie
-      // Par exemple, filtrer les travaux en fonction de la catégorie sélectionnée
-      const travauxFiltres = getTravauxByCategorieId(category.id); // Fonction hypothétique pour filtrer les travaux
-      displayWorks(travauxFiltres); // Afficher les travaux filtrés
+      const idCategory = category.id;
+      filterByCategory(idCategory);
     });
-
-    filtre.appendChild(bouton); // Ajout du bouton de catégorie au conteneur de filtres
   });
 };
-
-// Exemple d'utilisation avec les catégories récupérées
-getCategories()
-  .then((categories) => {
-    displayFilters(categories); // Appel à la fonction pour afficher les boutons de catégorie
-  })
-  .catch((error) => {
-    console.error('Erreur lors de la récupération des catégories :', error);
-  });
-
 
 
 /**
  * Fonction qui permet de filtrer les travaux par catégorie
  */
-const filterByCategory = (idCategory, works) => {
-  console.log(idCategory);
-  console.log(works);
-  // on peut maintenant filtrer les travaux par catégorie (A REDIGER !!!)
+const filterByCategory = (idCategory) => {
+  const filteredWorks = (idCategory === 'all') ? works : works.filter(work => work.categoryId === idCategory);
+  displayWorks(filteredWorks);
 };
 
-/**************************************************************************** */
+
+
 /**
  * au chargement de la page
  */
@@ -164,28 +130,18 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // exécution de la fonction permmetant d'alimenter la variable works
   const works = await getWorks();
-  console.log(works);
 
-  // exécution de la fonction permmetant d'alimenter la variable globale categories
   await getCategories();
-  console.log(categories);
-
-  // exécution de la fonction qui affiche les travaux
   displayWorks(works);
-
-  // exécution de la fonction qui affiche les filtres
   displayFilters(categories);
 
   // Evénement Filtre par catégorie
-  boutonObjets.addEventListener("click", function (clic) {
-    // ON commence par récupérer l'ID du bouton Cliqué (qui correspond à l'ID de la catégorie pour le filtre)
-    //console.log(clic);
-    //console.log("TARGET : ", clic.target);
-    const idCategory = clic.target.id;
-    //console.log(idCategory);
-
-    // UNE fois qu'on a l'ID de la catégorie, on peut filtrer
-    // reponse(idCategory);
-    filterByCategory(idCategory);
+  const filtre = document.querySelector('#portfolio .filtre');
+  filtre.addEventListener('click', (event) => {
+    const clickedButton = event.target;
+    if (clickedButton.tagName === 'BUTTON') {
+      const idCategory = clickedButton.getAttribute('data-categorie-id');
+      filterByCategory(idCategory);
+    }
   });
 });
