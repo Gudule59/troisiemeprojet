@@ -1,63 +1,24 @@
-
-// On récupère la liste des travaux depuis l'API via FETCH
-fetch("http://localhost:5678/api/works")
-  .then((res) => {
-    // 1/ on vérifie que le retour de l'API est exploitable
-    console.log(res);
-    if (res.ok === true) {
-      console.log("DONNEES RECUES DE L'API");
-      return res.json();
-    } else {
-      console.log("erreur API");
-    }
-  })
-  .then((works) => {
-    // 2/ on exploite le jeu de données (JSON)
-    console.log(works);
-
-    for (let i = 0; i < works.length; i++) {
-
-    const article = works[i];
-    const gallery = document.querySelector("#portfolio .gallery");
-    const projetElement = document.createElement("article");
-
-    const imageElement = document.createElement ("img");
-    imageElement.src=article.imageUrl;
-    const titreElement = document.createElement ("p");
-    titreElement.innerText = article.title;
-  
-
-    gallery.appendChild(projetElement);
-    projetElement.appendChild(imageElement);
-    projetElement.appendChild(titreElement);
-    
-  }
-
- });
-
-
-
-
-
-
 // variable (globale) permettant de stocker les données (issues de l'API) des travaux
 let categories;
-let works  ;
-
+let travaux  ;
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
  */
 const getCategories = async () => {
   await fetch("http://localhost:5678/api/categories")
     .then((response) => {
+      // console.log(response);
+      // une fois qu'on a une réponse de l'API, on vérifie que le statut de la promesse est 200, et si oui, on renvoie les données au format JSON
       if (response.status === 200) {
+        //console.log(response.json());
         return response.json();
       } else {
         console.log("la requête n'a pas abouti");
       }
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
+      // une fois qu'on a les données de l'API, on alimente la variable globale (categories) avec les données
       categories = data;
     });
 };
@@ -77,51 +38,49 @@ const getWorks = async () => {
   }
 };
 
-// Fonction qui affiche les travaux dans la page
+/**
+ * Fonction qui affiche les travaux dans la page
+ */
+const displayWorks = (travaux) => {
 
-const displayWorks = (works) => {
+  travaux.forEach((works) => {
+    const gallery = document.querySelector("#portfolio .gallery");
+    const projetElement = document.createElement("article");
 
+    const imageElement = document.createElement ("img");
+    imageElement.src=works.imageUrl;
+    const titreElement = document.createElement ("p");
+    titreElement.innerText = works.title;
+  
+
+    gallery.appendChild(projetElement);
+    projetElement.appendChild(imageElement);
+    projetElement.appendChild(titreElement);
+    
+  })
+
+  // on peut maintenant afficher les travaux dans la page
 };
 
-//Fonction qui affiche les boutons de filtre dans la page
-
+/**
+ * Fonction qui affiche les boutons de filtre dans la page
+ */
 const displayFilters = (categories) => {
-  const filtre = document.querySelector('#portfolio .filtre');
-
-  const boutonTousExistant = filtre.querySelector('.boutonTous');
-  if (!boutonTousExistant) {
-    const boutonTous = document.createElement('button');
-    boutonTous.textContent = "Tous"; 
-    boutonTous.classList.add('boutonObjets'); 
-    boutonTous.setAttribute('data-categorie-id', 'all'); 
-    filtre.appendChild(boutonTous);
-  }
-
-  categories.forEach((category) => {
-    const bouton = document.createElement('button');
-    bouton.textContent = category.name; 
-    bouton.classList.add('boutonObjets'); 
-    bouton.setAttribute('data-categorie-id', category.id); 
-    filtre.appendChild(bouton); 
-
-    bouton.addEventListener('click', () => {
-      const idCategory = category.id;
-      filterByCategory(idCategory);
-    });
-  });
+  console.log(categories);
+  // on peut maintenant afficher les boutons de filtres dans la page (A REDIGER !!!)
+  // On ajoute autant de boutons que de catégories (plus UN pour tous !)
 };
-
 
 /**
  * Fonction qui permet de filtrer les travaux par catégorie
  */
-const filterByCategory = (idCategory) => {
-  const filteredWorks = (idCategory === 'all') ? works : works.filter(work => work.categoryId === idCategory);
-  displayWorks(filteredWorks);
+const filterByCategory = (idCategory, works) => {
+  console.log(idCategory);
+  console.log(works);
+  // on peut maintenant filtrer les travaux par catégorie (A REDIGER !!!)
 };
 
-
-
+/**************************************************************************** */
 /**
  * au chargement de la page
  */
@@ -130,18 +89,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // exécution de la fonction permmetant d'alimenter la variable works
   const works = await getWorks();
+  console.log(works);
 
+  // exécution de la fonction permmetant d'alimenter la variable globale categories
   await getCategories();
+  console.log(categories);
+
+  // exécution de la fonction qui affiche les travaux
   displayWorks(works);
+
+  // exécution de la fonction qui affiche les filtres
   displayFilters(categories);
 
   // Evénement Filtre par catégorie
-  const filtre = document.querySelector('#portfolio .filtre');
-  filtre.addEventListener('click', (event) => {
-    const clickedButton = event.target;
-    if (clickedButton.tagName === 'BUTTON') {
-      const idCategory = clickedButton.getAttribute('data-categorie-id');
-      filterByCategory(idCategory);
-    }
+  boutonObjets.addEventListener("click", function (clic) {
+    // ON commence par récupérer l'ID du bouton Cliqué (qui correspond à l'ID de la catégorie pour le filtre)
+    //console.log(clic);
+    //console.log("TARGET : ", clic.target);
+    const idCategory = clic.target.id;
+    //console.log(idCategory);
+
+    // UNE fois qu'on a l'ID de la catégorie, on peut filtrer
+    // reponse(idCategory);
+    filterByCategory(idCategory);
   });
 });
