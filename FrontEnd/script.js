@@ -92,33 +92,32 @@ const displayFilters = (categories) => {
 /**
  * Fonction qui permet de filtrer les travaux par catégorie
  */
-const filterByCategory = (idCategory, works) => {
-  console.log(idCategory);
-  console.log(works);
-  // on peut maintenant filtrer les travaux par catégorie (A REDIGER !!!)
+const filterByCategory = (idCategory) => {
+  const gallery = document.querySelector("#portfolio .gallery");
+  const elements = gallery.querySelectorAll('article');
 
-  bouton.addEventListener('click', () => {
-    const idCategory = category.id;
-    filterByCategory(idCategory);
+  elements.forEach((element) => {
+    const elementCategory = element.getAttribute('data-categorie-id');
+
+    if (idCategory === 'all' || elementCategory === idCategory) {
+      element.style.display = 'block'; // Afficher l'élément si la catégorie correspond ou si "Tous" est sélectionné
+    } else {
+      element.style.display = 'none'; // Masquer l'élément si la catégorie ne correspond pas
+    }
   });
-
-
-
-
 };
 
-/**************************************************************************** */
 /**
  * au chargement de la page
  */
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("Au chargement de la page");
 
-  // exécution de la fonction permmetant d'alimenter la variable works
+  // exécution de la fonction permettant d'alimenter la variable works
   const works = await getWorks();
   console.log(works);
 
-  // exécution de la fonction permmetant d'alimenter la variable globale categories
+  // exécution de la fonction permettant d'alimenter la variable globale categories
   await getCategories();
   console.log(categories);
 
@@ -129,15 +128,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   displayFilters(categories);
 
   // Evénement Filtre par catégorie
-  boutonObjets.addEventListener("click", function (clic) {
-    // ON commence par récupérer l'ID du bouton Cliqué (qui correspond à l'ID de la catégorie pour le filtre)
-    //console.log(clic);
-    //console.log("TARGET : ", clic.target);
-    const idCategory = clic.target.id;
-    //console.log(idCategory);
-
-    // UNE fois qu'on a l'ID de la catégorie, on peut filtrer
-    // reponse(idCategory);
-    filterByCategory(idCategory);
+  const filtre = document.querySelector('#portfolio .filtre');
+  filtre.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON') {
+      const idCategory = event.target.getAttribute('data-categorie-id');
+      filterByCategory(idCategory);
+    }
   });
 });

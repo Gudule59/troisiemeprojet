@@ -59,31 +59,15 @@ const displayWorks = (travaux) => {
     
   })
 
+  // on peut maintenant afficher les travaux dans la page
 };
 
 /**
-* Fonction qui permet de filtrer les travaux par catégorie
-*/
-const filterByCategory = (idCategory) => {
-  const gallery = document.querySelector("#portfolio .gallery");
-  const elements = gallery.querySelectorAll('article');
- 
-  elements.forEach(element => {
-    const elementCategory = element.getAttribute('data-categorie-id');
-    if (idCategory === 'all' || idCategory === elementCategory) {
-      element.style.display = 'block'; // Afficher l'élément si la catégorie correspond ou si "Tous" est sélectionné
-    } else {
-      element.style.display = 'none'; // Masquer l'élément si la catégorie ne correspond pas
-    }
-  });
- };
- 
-/**
-* Fonction qui affiche les boutons de filtre dans la page
-*/
- const displayFilters = (categories) => {
+ * Fonction qui affiche les boutons de filtre dans la page
+ */
+const displayFilters = (categories) => {
   const filtre = document.querySelector('#portfolio .filtre');
- 
+
   const boutonTousExistant = filtre.querySelector('.boutonTous');
   if (!boutonTousExistant) {
     const boutonTous = document.createElement('button');
@@ -92,41 +76,60 @@ const filterByCategory = (idCategory) => {
     boutonTous.setAttribute('data-categorie-id', 'all'); 
     filtre.appendChild(boutonTous);
   }
- 
+
   categories.forEach((category) => {
     const bouton = document.createElement('button');
     bouton.textContent = category.name; 
     bouton.classList.add('boutonObjets'); 
     bouton.setAttribute('data-categorie-id', category.id); 
     filtre.appendChild(bouton); 
- 
-    bouton.addEventListener('click', () => {
-      const idCategory = category.id;
-      filterByCategory(idCategory);
-    });
+
+
   });
- };
- 
- 
-/**************************************************************************** */
+};
+
+
+/**
+ * Fonction qui permet de filtrer les travaux par catégorie
+ */
+const filterByCategory = (idCategory) => {
+  const gallery = document.querySelector("#portfolio .gallery");
+  const elements = gallery.querySelectorAll('article');
+
+  elements.forEach((element) => {
+    const elementCategory = element.getAttribute('data-categorie-id');
+
+    if (idCategory === 'all' || elementCategory === idCategory) {
+      element.style.display = 'block'; // Afficher l'élément si la catégorie correspond ou si "Tous" est sélectionné
+    } else {
+      element.style.display = 'none'; // Masquer l'élément si la catégorie ne correspond pas
+    }
+  });
+};
+
 /**
  * au chargement de la page
  */
-
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("Au chargement de la page");
 
   // exécution de la fonction permettant d'alimenter la variable works
   const works = await getWorks();
+  console.log(works);
+
   // exécution de la fonction permettant d'alimenter la variable globale categories
   await getCategories();
+  console.log(categories);
+
   // exécution de la fonction qui affiche les travaux
   displayWorks(works);
+
   // exécution de la fonction qui affiche les filtres
   displayFilters(categories);
 
-  // Écouteur d'événements pour le filtrage des travaux au clic sur un bouton de catégorie
-  document.querySelector('#portfolio .filtre').addEventListener('click', (event) => {
+  // Evénement Filtre par catégorie
+  const filtre = document.querySelector('#portfolio .filtre');
+  filtre.addEventListener('click', (event) => {
     if (event.target.tagName === 'BUTTON') {
       const idCategory = event.target.getAttribute('data-categorie-id');
       filterByCategory(idCategory);
