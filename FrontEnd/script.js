@@ -66,10 +66,28 @@ const displayWorks = (travaux) => {
  * Fonction qui affiche les boutons de filtre dans la page
  */
 const displayFilters = (categories) => {
-  console.log(categories);
-  // on peut maintenant afficher les boutons de filtres dans la page (A REDIGER !!!)
-  // On ajoute autant de boutons que de catégories (plus UN pour tous !)
+  const filtre = document.querySelector('#portfolio .filtre');
+
+  const boutonTousExistant = filtre.querySelector('.boutonTous');
+  if (!boutonTousExistant) {
+    const boutonTous = document.createElement('button');
+    boutonTous.textContent = "Tous"; 
+    boutonTous.classList.add('boutonObjets'); 
+    boutonTous.setAttribute('data-categorie-id', 'all'); 
+    filtre.appendChild(boutonTous);
+  }
+
+  categories.forEach((category) => {
+    const bouton = document.createElement('button');
+    bouton.textContent = category.name; 
+    bouton.classList.add('boutonObjets'); 
+    bouton.setAttribute('data-categorie-id', category.id); 
+    filtre.appendChild(bouton); 
+
+
+  });
 };
+
 
 /**
  * Fonction qui permet de filtrer les travaux par catégorie
@@ -78,6 +96,15 @@ const filterByCategory = (idCategory, works) => {
   console.log(idCategory);
   console.log(works);
   // on peut maintenant filtrer les travaux par catégorie (A REDIGER !!!)
+
+  bouton.addEventListener('click', () => {
+    const idCategory = category.id;
+    filterByCategory(idCategory);
+  });
+
+
+
+
 };
 
 /**************************************************************************** */
