@@ -100,9 +100,9 @@ const filterByCategory = (idCategory) => {
     const elementCategory = element.getAttribute('data-categorie-id');
 
     if (idCategory === 'all' || idCategory === '2') {
-      element.style.display = 'block'; // Afficher l'élément si la catégorie correspond ou si "Tous" est sélectionné
+      element.style.display = 'block'; 
     } else {
-      element.style.display = 'none'; // Masquer l'élément si la catégorie ne correspond pas
+      element.style.display = 'none'; 
     }
   });
 };
