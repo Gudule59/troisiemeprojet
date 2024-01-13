@@ -46,6 +46,7 @@ const displayWorks = (travaux) => {
   travaux.forEach((works) => {
     const gallery = document.querySelector("#portfolio .gallery");
     const projetElement = document.createElement("article");
+    projetElement.setAttribute("categoryId", works.category.id);
 
     const imageElement = document.createElement ("img");
     imageElement.src=works.imageUrl;
@@ -95,11 +96,11 @@ const displayFilters = (categories) => {
 const filterByCategory = (idCategory) => {
   const gallery = document.querySelector("#portfolio .gallery");
   const elements = gallery.querySelectorAll('article');
-
+  console.log(elements)
   elements.forEach((element) => {
-    const elementCategory = element.getAttribute('data-categorie-id');
+    const elementCategory = element.getAttribute('categoryId');
 
-    if (idCategory === 'all' || idCategory === '2') {
+    if (idCategory === 'all' || idCategory === elementCategory ) {
       element.style.display = 'block'; 
     } else {
       element.style.display = 'none'; 
