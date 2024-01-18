@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Effectuer la requête
     fetch('http://localhost:5678/api/users/login', requestOptions)
       .then(response => response.json())
+      if (!response.ok) {
+        throw new Error('Identifiants incorrects');
+      }
+      return response.json();
       .then(data => {
         // données renvoyées par l'API
         console.log('Information sur la recuperation du TOKEN :', data);
@@ -38,12 +42,13 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem('monToken', token);
        
 
-        // Vous pouvez également rediriger l'utilisateur vers une autre page après l'authentification
-        // window.location.href = './nouvelle-page.html';
+        
+      window.location.href = '.index.html';
       })
       .catch(error => {
         // Gérer les erreurs
         console.error('Erreur de requête vers l\'API:', error);
+        alert('Identifiants incorrects. Veuillez réessayer.');
       });
   });
 });
