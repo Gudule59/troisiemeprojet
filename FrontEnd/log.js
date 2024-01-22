@@ -25,31 +25,33 @@ document.addEventListener('DOMContentLoaded', function () {
       body: JSON.stringify(postData),
     };
 
-    // Effectuer la requête
-    fetch('http://localhost:5678/api/users/login', requestOptions)
-      .then(response => response.json())
-      if (!response.ok) {
-        throw new Error('Identifiants incorrects');
-      }
-      return response.json();
-      .then(data => {
-        // données renvoyées par l'API
-        console.log('Information sur la recuperation du TOKEN :', data);
+     // Effectuer la requête
+     fetch("http://localhost:5678/api/users/login", requestOptions)
+     .then((response) => {
+       if (response.ok) {
+         //console.log(response.json());
+         return response.json();
+       } else {
+         console.log("la requête n'a pas abouti");
+         const msg = document.getElementById("alert");
+         msg.style.display = "block";
+         throw new Error("Identifiants incorrects");
+       }
+     })
+     .then((data) => {
+       // données renvoyées par l'API
+       console.log("Information sur la recuperation du TOKEN :", data);
 
-    
-      const token = data.token;
-      console.log(token)
-      localStorage.setItem('monToken', token);
-       
+       const token = data.token;
+       console.log(token);
+       localStorage.setItem("monToken", token);
 
-        
-      window.location.href = '.index.html';
-      })
-      .catch(error => {
-        // Gérer les erreurs
-        console.error('Erreur de requête vers l\'API:', error);
-        alert('Identifiants incorrects. Veuillez réessayer.');
-      });
-  });
-});
-
+       window.location.href = "./index.html";
+     })
+     .catch((error) => {
+       // Gérer les erreurs
+       console.error("Erreur de requête vers l'API:", error);
+       //alert("Identifiants incorrects. Veuillez réessayer.");
+     });
+ });
+})
