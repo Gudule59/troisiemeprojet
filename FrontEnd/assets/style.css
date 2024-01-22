@@ -221,3 +221,12 @@ margin-bottom: 200px;
 .motdepasse {
 	color: #3D3D3D;
 	  }
+
+	  .alert {
+		font-family: 'Work Sans' ;
+		font-size: 22px;
+		font-style: oblique;
+		color: red;
+		margin-top: 40px;
+		display: none;
+	  }
