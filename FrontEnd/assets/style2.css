@@ -47,13 +47,12 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
-body .main {
+body {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-
 header {
 	display: flex;
 	justify-content: space-between;
@@ -96,10 +95,7 @@ nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
-a {
-color:#000000;
-text-decoration: none;
-}
+
 li:hover {
 	color: #B1663C;
 }
@@ -235,45 +231,7 @@ margin-bottom: 200px;
 		margin-top: 40px;
 		display: none;
 	  }
-
-	  .modifier-btn {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		border-radius: 0px;
-		Width: 100%;
-		height: 50px;
-		background-color: #000000;
-		color: #FFFFFF;
-		font-family: 'Work Sans';
-		font-size: 14px; 
-		  }
-	
-	  .far {
-		margin: 10px;
-		
-	  }
-.modif-btn{
-	border:none;
-	color: black;
-}
-	  .btn-projet{
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-
-	  }
-
-	
-	  .modifier-btn:active,
-	  .modifier-btn:focus {
-		  background-color: #000000 !important;
-		  color: #FFFFFF !important;
-	  }
-
-	  .modif-btn:active,
-	  .modif-btn:focus{
-		background-color: white !important;
-		color:black !important;
-	  }
+	  a {
+		color:#000000;
+		text-decoration: none;
+		}
