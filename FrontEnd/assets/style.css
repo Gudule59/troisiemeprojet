@@ -53,11 +53,18 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
-header {
+header .titre{
 	display: flex;
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+header, .titre{
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0
+}
+
 section{
 	margin: 50px 0
 }
@@ -229,4 +236,13 @@ margin-bottom: 200px;
 		color: red;
 		margin-top: 40px;
 		display: none;
+	  }
+
+	  .bandeau {
+		Width: 100%;
+		background-color: #b41414;
+		color: #FFFFFF;
+	  }
+	  .fa-pen-to-square{
+		color: white;
 	  }
