@@ -140,40 +140,73 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 document.addEventListener('DOMContentLoaded', function() {
   // Récupérer le lien et définir le gestionnaire d'événements
+  const token = localStorage.getItem("connecte");
+  // Utiliser le token comme nécessaire
+  console.log("Token récupéré :", token);
+// Vérifier si la clé "token" est présente dans le localStorage
+const hasToken = localStorage.getItem("connecte") !== null;
+
+// Si la clé "token" est présente, stocker la valeur true
+if (hasToken) {
+  localStorage.setItem("connecte", true);
+}
+
+
   MajLien();
+  
+
   const connexion = document.getElementById('loginLogoutLink');
-  connexion.addEventListener('click', MajLien);
+  connexion.addEventListener('click',ChangementEtatConnexion);
 
   // Vérifier l'état de connexion au chargement de la page
-  ChangementEtatConnexion();
+  MajLien();
 });
+
+function Pageconnexion() {
+  const Pageconnexion = "./login.html";
+  window.location.href = Pageconnexion;
+}
+
+function Pagaaccueil() {
+  const Pagaaccueil = "./index.html";
+  window.location.href = Pagaaccueil;
+}
 
 function ChangementEtatConnexion(event) {
   event.preventDefault();
-
-  // Inverser l'état de connexion
-  const connecte = localStorage.getItem('connecte') === 'true';
+  const connecte = localStorage.getItem('connecte') === "true";
   localStorage.setItem('connecte', (!connecte).toString());
+ 
 
-
-  MajLien();
+  if (connecte) {   // si deja connecté
+    localStorage.removeItem('connecte');
+    const token = localStorage.getItem("connecte");
+    console.log("Token récupéré :", token);
+    Pagaaccueil();
+  } 
+else  { // sinon
+  Pageconnexion();
+  const token = localStorage.getItem("connecte");
+  console.log("Token récupéré en elese:", token);
+  }
 }
 
 function MajLien() {   // Mettre à jour l'apparence du lien
-  const connecte = localStorage.getItem('connecte') === 'true';
+  const connecte = localStorage.getItem("connecte") === "true"; // Utiliser la même comparaison
   const connexion = document.getElementById('loginLogoutLink');
 
   if (connecte) {
     connexion.innerHTML = '<a href="./index.html">Logout</a>';
-    const affichage = document.getElementById("modif")
-    const affichage1 = document.getElementById("bandeau")
+    const affichage = document.getElementById("modif");
+    const affichage1 = document.getElementById("bandeau");
     affichage.style.display = "block";
     affichage1.style.display = "block";
   } else {
     connexion.innerHTML = '<a href="./login.html">Login</a>';
-    const affichage = document.getElementById("modif")
-    const affichage1 = document.getElementById("bandeau")
+    const affichage = document.getElementById("modif");
+    const affichage1 = document.getElementById("bandeau");
     affichage.style.display = "none";
     affichage1.style.display = "none";
+ 
   }
-}
+};
