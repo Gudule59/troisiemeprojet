@@ -137,3 +137,43 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Récupérer le lien et définir le gestionnaire d'événements
+  MajLien();
+  const connexion = document.getElementById('loginLogoutLink');
+  connexion.addEventListener('click', MajLien);
+
+  // Vérifier l'état de connexion au chargement de la page
+  ChangementEtatConnexion();
+});
+
+function ChangementEtatConnexion(event) {
+  event.preventDefault();
+
+  // Inverser l'état de connexion
+  const connecte = localStorage.getItem('connecte') === 'true';
+  localStorage.setItem('connecte', (!connecte).toString());
+
+
+  MajLien();
+}
+
+function MajLien() {   // Mettre à jour l'apparence du lien
+  const connecte = localStorage.getItem('connecte') === 'true';
+  const connexion = document.getElementById('loginLogoutLink');
+
+  if (connecte) {
+    connexion.innerHTML = '<a href="./index.html">Logout</a>';
+    const affichage = document.getElementById("modif")
+    const affichage1 = document.getElementById("bandeau")
+    affichage.style.display = "block";
+    affichage1.style.display = "block";
+  } else {
+    connexion.innerHTML = '<a href="./login.html">Login</a>';
+    const affichage = document.getElementById("modif")
+    const affichage1 = document.getElementById("bandeau")
+    affichage.style.display = "none";
+    affichage1.style.display = "none";
+  }
+}
