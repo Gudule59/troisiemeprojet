@@ -132,7 +132,7 @@ function displayContext() {
   console.log(`Connecté : ${state}`);
 
   if (state) {
-    modifBtn.style.display = "block";
+    modifBtn.style.display = "flex";
     bandeau.style.display = "block";
     loginBtn.textContent = "Logout";
     loginBtn.href = "";
@@ -179,7 +179,7 @@ const openModal = function (event) {
   event.preventDefault();
   modal = document.getElementById("modal");
   if (modal) {
-    modal.style.display = "block";
+    modal.style.display = "flex";
     modal.addEventListener("click", closeModal);
   }
 };
