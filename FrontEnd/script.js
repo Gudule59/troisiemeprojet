@@ -205,6 +205,7 @@ const closeModal = function (event) {
 document.addEventListener("DOMContentLoaded", async function () {
   // affichage contextualisé des boutons et bandeau
   displayContext();
+  checkConnexion();
 
   // Événement pour le bouton de connexion
   const loginBtn = document.getElementById("loginLogoutLink");

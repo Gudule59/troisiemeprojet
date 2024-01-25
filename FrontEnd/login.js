@@ -44,9 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
        const token = data.token;
        console.log(token);
-       localStorage.setItem("connecte", token.toString());
+       localStorage.setItem("connecte", token);
+       
 
        window.location.href = "./index.html";
+       
      })
      .catch((error) => {
        // Gérer les erreurs
