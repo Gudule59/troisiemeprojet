@@ -1,6 +1,8 @@
 // variable (globale) permettant de stocker les données (issues de l'API) des travaux
 let categories;
-let travaux  ;
+let travaux;
+let modal = null;
+
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
  */
@@ -42,77 +44,178 @@ const getWorks = async () => {
  * Fonction qui affiche les travaux dans la page
  */
 const displayWorks = (travaux) => {
-
   travaux.forEach((works) => {
     const gallery = document.querySelector("#portfolio .gallery");
     const projetElement = document.createElement("article");
     projetElement.setAttribute("categoryId", works.category.id);
 
-    const imageElement = document.createElement ("img");
-    imageElement.src=works.imageUrl;
-    const titreElement = document.createElement ("p");
+    const imageElement = document.createElement("img");
+    imageElement.src = works.imageUrl;
+    const titreElement = document.createElement("p");
     titreElement.innerText = works.title;
-  
 
     gallery.appendChild(projetElement);
     projetElement.appendChild(imageElement);
     projetElement.appendChild(titreElement);
-    
-  })
-
-  // on peut maintenant afficher les travaux dans la page
+  });
 };
 
 /**
  * Fonction qui affiche les boutons de filtre dans la page
  */
 const displayFilters = (categories) => {
-  const filtre = document.querySelector('#portfolio .filtre');
+  const filtre = document.querySelector("#portfolio .filtre");
 
-  const boutonTousExistant = filtre.querySelector('.boutonTous');
+  const boutonTousExistant = filtre.querySelector(".boutonTous");
   if (!boutonTousExistant) {
-    const boutonTous = document.createElement('button');
-    boutonTous.textContent = "Tous"; 
-    boutonTous.classList.add('boutonObjets'); 
-    boutonTous.setAttribute('data-categorie-id', 'all'); 
+    const boutonTous = document.createElement("button");
+    boutonTous.textContent = "Tous";
+    boutonTous.classList.add("boutonObjets");
+    boutonTous.setAttribute("data-categorie-id", "all");
     filtre.appendChild(boutonTous);
   }
 
   categories.forEach((category) => {
-    const bouton = document.createElement('button');
-    bouton.textContent = category.name; 
-    bouton.classList.add('boutonObjets'); 
-    bouton.setAttribute('data-categorie-id', category.id); 
-    filtre.appendChild(bouton); 
-
-
+    const bouton = document.createElement("button");
+    bouton.textContent = category.name;
+    bouton.classList.add("boutonObjets");
+    bouton.setAttribute("data-categorie-id", category.id);
+    filtre.appendChild(bouton);
   });
 };
-
 
 /**
  * Fonction qui permet de filtrer les travaux par catégorie
  */
 const filterByCategory = (idCategory) => {
   const gallery = document.querySelector("#portfolio .gallery");
-  const elements = gallery.querySelectorAll('article');
-  console.log(elements)
+  const elements = gallery.querySelectorAll("article");
+  console.log(elements);
   elements.forEach((element) => {
-    const elementCategory = element.getAttribute('categoryId');
+    const elementCategory = element.getAttribute("categoryId");
 
-    if (idCategory === 'all' || idCategory === elementCategory ) {
-      element.style.display = 'block'; 
+    if (idCategory === "all" || idCategory === elementCategory) {
+      element.style.display = "block";
     } else {
-      element.style.display = 'none'; 
+      element.style.display = "none";
     }
   });
 };
 
 /**
- * au chargement de la page
+ * Function to check if the user is connected using a stored token.
+ *
+ * @return {boolean} true if connected, false if not connected
  */
-document.addEventListener("DOMContentLoaded", async () => {
-  console.log("Au chargement de la page");
+function checkConnexion() {
+  const token = localStorage.getItem("token");
+  // console.log(token);
+  if (token) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * Display the appropriate context based on the user's connection state.
+ *
+ * @param None
+ * @return None
+ */
+function displayContext() {
+  const modifBtn = document.getElementById("modif");
+  const bandeau = document.getElementById("bandeau");
+  const loginBtn = document.getElementById("loginLogoutLink");
+
+  const state = checkConnexion();
+  console.log(`Connecté : ${state}`);
+
+  if (state) {
+    modifBtn.style.display = "block";
+    bandeau.style.display = "block";
+    loginBtn.textContent = "Logout";
+    loginBtn.href = "";
+  } else {
+    modifBtn.style.display = "none";
+    bandeau.style.display = "none";
+    loginBtn.textContent = "Login";
+    loginBtn.href = "./login.html";
+  }
+}
+
+/**
+ * Logs the user out by preventing the default event, clearing the local storage,
+ * and displaying the button as connected.
+ *
+ * @param {object} event - The event object
+ * @return {void}
+ */
+function logout(event) {
+  event.preventDefault();
+  localStorage.clear();
+  displayContext();
+}
+
+/**
+ * Redirects the user to the login page.
+ *
+ * @param {Event} event - The event object.
+ * @return {void} This function does not return a value.
+ */
+function login(event) {
+  event.preventDefault();
+  window.location.href = "./login.html";
+}
+
+/**
+ * Function to open a modal.
+ *
+ * @param {Event} event - the event that triggered the modal opening
+ * @return {undefined}
+ */
+const openModal = function (event) {
+  console.log(event);
+  event.preventDefault();
+  modal = document.getElementById("modal");
+  if (modal) {
+    modal.style.display = "block";
+    modal.addEventListener("click", closeModal);
+  }
+};
+
+/**
+ * Closes the modal when called, preventing the default event behavior and
+ * removing the modal display. Also removes the click event listener and sets
+ * the modal to null.
+ *
+ * @param {event} event - The event object triggering the function
+ * @return {undefined}
+ */
+const closeModal = function (event) {
+  event.preventDefault();
+  modal.style.display = "none";
+  modal.removeEventListener("click", closeModal);
+  modal = null;
+};
+
+/**
+ * Au chargement de la page (une fois que le DOM est chargé correctement)
+ */
+document.addEventListener("DOMContentLoaded", async function () {
+  // affichage contextualisé des boutons et bandeau
+  displayContext();
+
+  // Événement pour le bouton de connexion
+  const loginBtn = document.getElementById("loginLogoutLink");
+  loginBtn.addEventListener("click", function (event) {
+    const state = checkConnexion();
+    if (state) {
+      logout(event);
+    } else {
+      login(event);
+    }
+  });
 
   // exécution de la fonction permettant d'alimenter la variable works
   const works = await getWorks();
@@ -129,105 +232,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   displayFilters(categories);
 
   // Evénement Filtre par catégorie
-  const filtre = document.querySelector('#portfolio .filtre');
-  filtre.addEventListener('click', (event) => {
-    if (event.target.tagName === 'BUTTON') {
-      const idCategory = event.target.getAttribute('data-categorie-id');
+  const filtre = document.querySelector("#portfolio .filtre");
+  filtre.addEventListener("click", (event) => {
+    if (event.target.tagName === "BUTTON") {
+      const idCategory = event.target.getAttribute("data-categorie-id");
       filterByCategory(idCategory);
     }
   });
+
+  // Evenement pour ouvrir la modale
+  const modifBtn = document.getElementById("modif");
+  modifBtn.addEventListener("click", openModal);
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Récupérer le lien et définir le gestionnaire d'événements
-  const token = localStorage.getItem("connecte");
-  // Utiliser le token comme nécessaire
-  console.log("Token récupéré :", token);
-// Vérifier si la clé "token" est présente dans le localStorage
-const hasToken = localStorage.getItem("connecte") !== null;
-
-// Si la clé "token" est présente, stocker la valeur true
-if (hasToken) {
-  localStorage.setItem("connecte", true);
-}
-
-
-  MajLien();
-  
-
-  const connexion = document.getElementById('loginLogoutLink');
-  connexion.addEventListener('click',ChangementEtatConnexion);
-
-  // Vérifier l'état de connexion au chargement de la page
-  MajLien();
-});
-
-function Pageconnexion() {
-  const Pageconnexion = "./login.html";
-  window.location.href = Pageconnexion;
-}
-
-function Pagaaccueil() {
-  const Pagaaccueil = "./index.html";
-  window.location.href = Pagaaccueil;
-}
-
-function ChangementEtatConnexion(event) {
-  event.preventDefault();
-  const connecte = localStorage.getItem('connecte') === "true";
-  localStorage.setItem('connecte', (!connecte).toString());
- 
-
-  if (connecte) {   // si deja connecté
-    localStorage.removeItem('connecte');
-    const token = localStorage.getItem("connecte");
-    console.log("Token récupéré :", token);
-    Pagaaccueil();
-  } 
-else  { // sinon
-  Pageconnexion();
-  const token = localStorage.getItem("connecte");
-  console.log("Token récupéré en elese:", token);
-  }
-}
-
-function MajLien() {   // Mettre à jour l'apparence du lien
-  const connecte = localStorage.getItem("connecte") === "true"; // Utiliser la même comparaison
-  const connexion = document.getElementById('loginLogoutLink');
-
-  if (connecte) {
-    connexion.innerHTML = '<a href="./index.html">Logout</a>';
-    const affichage = document.getElementById("modif");
-    const affichage1 = document.getElementById("bandeau");
-    affichage.style.display = "block";
-    affichage1.style.display = "block";
-  } else {
-    connexion.innerHTML = '<a href="./login.html">Login</a>';
-    const affichage = document.getElementById("modif");
-    const affichage1 = document.getElementById("bandeau");
-    affichage.style.display = "none";
-    affichage1.style.display = "none";
- 
-  }
-};
-
-
-let modal = null;
-
-const openModal = function (event) {
-  event.preventDefault();
-  const target = document.querySelector(event.target.getAttribute('href'));
-  modal = target;
-  modal.style.display = "block";
-  modal.addEventListener('click', closeModal);
-};
-
-const closeModal = function (event) {
-  event.preventDefault();
-  modal.style.display = "none";
-  modal.removeEventListener('click', closeModal);
-  modal = null;
-};
-
-const ouverture = document.getElementById("modif");
-ouverture.addEventListener('click', openModal);
