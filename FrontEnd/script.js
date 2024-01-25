@@ -210,3 +210,24 @@ function MajLien() {   // Mettre à jour l'apparence du lien
  
   }
 };
+
+
+let modal = null;
+
+const openModal = function (event) {
+  event.preventDefault();
+  const target = document.querySelector(event.target.getAttribute('href'));
+  modal = target;
+  modal.style.display = "block";
+  modal.addEventListener('click', closeModal);
+};
+
+const closeModal = function (event) {
+  event.preventDefault();
+  modal.style.display = "none";
+  modal.removeEventListener('click', closeModal);
+  modal = null;
+};
+
+const ouverture = document.getElementById("modif");
+ouverture.addEventListener('click', openModal);
