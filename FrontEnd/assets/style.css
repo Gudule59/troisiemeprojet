@@ -275,7 +275,8 @@ margin-bottom: 200px;
 	  }
 
 	  .modif-btn:active,
-	  .modif-btn:focus{
+	  .modif-btn:focus,
+	  .close-btn:focus{
 		background-color: white !important;
 		color:black !important;
 	  }
@@ -313,12 +314,13 @@ border-radius: 10px;
 		left: 50%;
 		transform: translateX(-50%);
 	  }
-	  .fa-xmark{
-	  
+	  .back-btn{
+		border-color: white;
+		color: #000000;
+		
 	
 	}
-
-	  .back-btn{
-		border-radius: none;
+	  .close-btn{
+		border-color: white;
 		color: #000000;
 	  }

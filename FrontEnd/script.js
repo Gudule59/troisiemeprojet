@@ -180,6 +180,8 @@ const openModal = function (event) {
   modal = document.getElementById("modal");
   const stopElement = modal.querySelector('.modal-stop');
   stopElement.addEventListener('click', stopPropagation);
+  const closebtn = modal.querySelector('.close-btn');
+  closebtn.addEventListener('click', closeModal);
  
  
   if (modal) {
