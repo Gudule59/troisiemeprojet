@@ -178,10 +178,18 @@ const openModal = function (event) {
   console.log(event);
   event.preventDefault();
   modal = document.getElementById("modal");
+  const stopElement = modal.querySelector('.modal-stop');
+  stopElement.addEventListener('click', stopPropagation);
+ 
+ 
   if (modal) {
     modal.style.display = "flex";
     modal.addEventListener("click", closeModal);
   }
+};
+
+const stopPropagation = function (event) {
+  event.stopPropagation()
 };
 
 /**

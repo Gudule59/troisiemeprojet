@@ -302,3 +302,24 @@ padding: 20px;
 background-color: white;
 border-radius: 10px;
 	  }
+
+	  .modal-btn{
+		display: flex;
+		justify-content: space-between;
+	  }
+	  .modal-btn-envoyer{
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+		position: fixed;
+		
+	  }
+	  .fa-xmark{
+	  
+	
+	}
+
+	  .back-btn{
+		border-radius: none;
+		color: #000000;
+	  }
