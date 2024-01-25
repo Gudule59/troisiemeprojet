@@ -308,11 +308,10 @@ border-radius: 10px;
 		justify-content: space-between;
 	  }
 	  .modal-btn-envoyer{
-		display: flex;
-		justify-content: center;
-		align-items: flex-end;
-		position: fixed;
-		
+		position: absolute;
+		bottom: 110px; 
+		left: 50%;
+		transform: translateX(-50%);
 	  }
 	  .fa-xmark{
 	  
