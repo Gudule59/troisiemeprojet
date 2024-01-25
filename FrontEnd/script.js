@@ -109,7 +109,7 @@ const filterByCategory = (idCategory) => {
  */
 function checkConnexion() {
   const token = localStorage.getItem("token");
-  // console.log(token);
+  console.log(token);
   if (token) {
     return true;
   } else {
@@ -205,8 +205,7 @@ const closeModal = function (event) {
 document.addEventListener("DOMContentLoaded", async function () {
   // affichage contextualisé des boutons et bandeau
   displayContext();
-  checkConnexion();
-
+  
   // Événement pour le bouton de connexion
   const loginBtn = document.getElementById("loginLogoutLink");
   loginBtn.addEventListener("click", function (event) {
