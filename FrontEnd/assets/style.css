@@ -235,6 +235,17 @@ margin-bottom: 200px;
 		margin-top: 40px;
 		display: none;
 	  }
+	  .hr {
+		border: none;
+  color: #B3B3B3;
+  width: 50%;
+  height: 0px;
+  border: 1px solid #B3B3B3;
+  position: absolute;
+  left: 50%;
+  top: 13px;
+
+	  }
 
 	  .modifier-btn {
 		display: flex;
@@ -302,6 +313,7 @@ max-height: 100vm;
 padding: 20px;
 background-color: white;
 border-radius: 10px;
+
 	  }
 
 	  .modal-btn{
@@ -324,3 +336,17 @@ border-radius: 10px;
 		border-color: white;
 		color: #000000;
 	  }
+
+	  .thumbnail {
+		width: 76.61px;
+		height: 102.57px;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr); /* 5 colonnes de largeur égale */
+		grid-gap: 10px; /* Espace entre les vignettes */
+
+	  }
+.projetElement{
+	display: grid;
+	grid-template-columns: repeat(5, 1fr); /* 5 colonnes de largeur égale */
+	grid-gap: 10px; /* Espace entre les vignettes */
+}

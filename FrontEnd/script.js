@@ -168,13 +168,36 @@ function login(event) {
   window.location.href = "./login.html";
 }
 
-/**
- * Function to open a modal.
- *
+
+const displayThumbnailsModal = (travaux) => {
+ // const modalContent = document.querySelector("#modal .modal-content");
+ // modalContent.innerHTML = ''; // Efface le contenu précédent de la modal
+ const modal = document.getElementById("modal-wrapper"); // Sélectionnez l'élément de la modale
+
+  travaux.forEach((works) => {
+    const projetElement = document.createElement("article");
+    projetElement.setAttribute("categoryId", works.category.id);
+    projetElement.classList.add('projetElement'); // Ajoutez une classe pour le style CSS
+
+    // Créez une vignette pour chaque image
+    const thumbnailImage = document.createElement("img");
+    thumbnailImage.src = works.imageUrl;
+    thumbnailImage.classList.add('thumbnail'); // Ajoutez une classe pour le style CSS
+
+    // Ajoutez un gestionnaire d'événements pour ouvrir l'image en grand lorsqu'elle est cliquée
+    thumbnailImage.addEventListener('click', () => {
+      openFullImage(works.imageUrl);
+    });
+
+    projetElement.appendChild(thumbnailImage);
+    modal.appendChild(projetElement);
+  });
+};
+/*
  * @param {Event} event - the event that triggered the modal opening
  * @return {undefined}
  */
-const openModal = function (event) {
+const openModal = async function (event) {
   console.log(event);
   event.preventDefault();
   modal = document.getElementById("modal");
@@ -182,7 +205,12 @@ const openModal = function (event) {
   stopElement.addEventListener('click', stopPropagation);
   const closebtn = modal.querySelector('.close-btn');
   closebtn.addEventListener('click', closeModal);
+
  
+   const works = await getWorks(); // on attends les elements de l'api
+   displayThumbnailsModal(works); // on les ajoutent
+
+
  
   if (modal) {
     modal.style.display = "flex";
