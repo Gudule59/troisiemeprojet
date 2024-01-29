@@ -168,11 +168,16 @@ function login(event) {
   window.location.href = "./login.html";
 }
 
+//titreGaleriemodal = document.getElementById('titremodal');
+//titreGaleriemodal.textContent = "Galerie Photo"; 
+
+//titreAjouterModal= document.getElementById('titremodal');
+//titreAjouterModal.textContent = "Ajouter une Photo"; 
 
 const displayThumbnailsModal = (travaux) => {
  // const modalContent = document.querySelector("#modal .modal-content");
  // modalContent.innerHTML = ''; // Efface le contenu précédent de la modal
- const modal = document.getElementById("modal-wrapper"); // Sélectionnez l'élément de la modale
+ const modal = document.getElementById("titre-modal"); // Sélectionnez l'élément de la modale
 
   travaux.forEach((works) => {
     const projetElement = document.createElement("article");
@@ -190,9 +195,12 @@ const displayThumbnailsModal = (travaux) => {
     });
 
     projetElement.appendChild(thumbnailImage);
-    modal.appendChild(projetElement);
+  //  modal.appendChild(projetElement);
   });
 };
+
+
+
 /*
  * @param {Event} event - the event that triggered the modal opening
  * @return {undefined}
@@ -200,6 +208,8 @@ const displayThumbnailsModal = (travaux) => {
 const openModal = async function (event) {
   console.log(event);
   event.preventDefault();
+  titreGaleriemodal = document.getElementById('titremodal');
+  titreGaleriemodal.textContent = "Galerie Photo"; 
   modal = document.getElementById("modal");
   const stopElement = modal.querySelector('.modal-stop');
   stopElement.addEventListener('click', stopPropagation);

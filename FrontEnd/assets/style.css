@@ -318,7 +318,7 @@ border-radius: 10px;
 
 	  .modal-btn{
 		display: flex;
-		justify-content: space-between;
+		justify-content: end;
 	  }
 	  .modal-btn-envoyer{
 		position: absolute;
@@ -329,6 +329,7 @@ border-radius: 10px;
 	  .back-btn{
 		border-color: white;
 		color: #000000;
+		display: none;
 		
 	
 	}
@@ -349,4 +350,8 @@ border-radius: 10px;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr); /* 5 colonnes de largeur égale */
 	grid-gap: 10px; /* Espace entre les vignettes */
+}
+
+.titremodal{
+color: #000000!important;
 }
