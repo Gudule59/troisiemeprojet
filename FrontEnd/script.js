@@ -177,24 +177,21 @@ function login(event) {
 const displayThumbnailsModal = (travaux) => {
  // const modalContent = document.querySelector("#modal .modal-content");
  // modalContent.innerHTML = ''; // Efface le contenu précédent de la modal
- const modal = document.getElementById("titre-modal"); // Sélectionnez l'élément de la modale
+ const modal = document.getElementById("titremodal"); // Sélectionnez l'élément de la modale
 
   travaux.forEach((works) => {
-    const projetElement = document.createElement("article");
-    projetElement.setAttribute("categoryId", works.category.id);
-    projetElement.classList.add('projetElement'); // Ajoutez une classe pour le style CSS
+    const gallerieImage = document.createElement("div");
+    gallerieImage.setAttribute("categoryId", works.category.id);
+    gallerieImage.classList.add('thumbnail'); // Ajoutez une classe pour le style CSS
 
     // Créez une vignette pour chaque image
     const thumbnailImage = document.createElement("img");
     thumbnailImage.src = works.imageUrl;
     thumbnailImage.classList.add('thumbnail'); // Ajoutez une classe pour le style CSS
 
-    // Ajoutez un gestionnaire d'événements pour ouvrir l'image en grand lorsqu'elle est cliquée
-    thumbnailImage.addEventListener('click', () => {
-      openFullImage(works.imageUrl);
-    });
 
-    projetElement.appendChild(thumbnailImage);
+    modal.insertAdjacentElement('afterend', gallerieImage);
+    gallerieImage.appendChild(thumbnailImage);
   //  modal.appendChild(projetElement);
   });
 };
