@@ -489,13 +489,51 @@ button:focus {
 .Ajouter-modal{
 	display:flex;
 	flex-direction:column;
-	align-items: center;
+	align-items: start;
 	justify-content: center;
 	margin: 50Px;
 }
 
-.titreNouvelleImage{
-
+.selectCategorie{
 	width: 100%;
-	height: 100px;
+	height: 40px;
+	margin-top: 10px;
 }
+
+.titreNouvelleImage{
+	width: 100%;
+	height: 40px;
+	margin-top: 10px;
+}
+
+.titreSelect, .categorieSelect{
+color: black;
+font-weight: bold;
+margin-top: 20px;
+}
+
+.ensembleImage {
+	display:flex;
+	flex-direction: column;
+	justify-content: end;
+	align-items: center;
+background-color: #E8F1F6;
+width: 100%;
+height: 270px;
+
+}
+.btnAjouterImage{
+background-color:#CBD6DC;
+border-color: #CBD6DC;
+color: #306685;
+font-size: 16px;
+width: 173px;
+height: 40px;
+margin-bottom: 20px;
+
+}
+.infoFormatTaille{
+	margin-bottom: 40px;
+
+}
+

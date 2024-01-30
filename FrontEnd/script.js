@@ -207,7 +207,31 @@ const displayAjouterModal = async (travaux) => {
   const modal = document.getElementById("titremodal");
   const article = document.createElement("article");
   article.classList.add('Ajouter-modal'); 
-  const titreNouvelleImage = document.createElement("textarea");
+
+  const ensembleImage= document.createElement("div");
+  ensembleImage.classList.add('ensembleImage'); 
+
+  const imageAjouter= document.createElement("img");
+  imageAjouter.classList.add('imageAjouter'); 
+
+  const btnAjouterImage= document.createElement("button");
+  btnAjouterImage.textContent = "+ Ajouter photo";
+  btnAjouterImage.classList.add('btnAjouterImage'); 
+
+  const infoFormatTaille= document.createElement("label");
+  infoFormatTaille.textContent = "jpg, png : 4mo max";
+  infoFormatTaille.classList.add('infoFormatTaille'); 
+
+  const labelTitre= document.createElement("label");
+  labelTitre.textContent = "Titre";
+  labelTitre.classList.add('titreSelect');
+
+  
+  const titreNouvelleImage = document.createElement("input");
+  titreNouvelleImage.setAttribute("type", "text");
+  const labelCategorie = document.createElement("label");
+  labelCategorie.textContent = "Catégorie";
+  labelCategorie.classList.add('categorieSelect');
   titreNouvelleImage.classList.add('titreNouvelleImage'); 
   const selectCategorie = document.createElement("select");
   selectCategorie.classList.add('selectCategorie'); 
@@ -215,7 +239,15 @@ const displayAjouterModal = async (travaux) => {
 
 
   modal.insertAdjacentElement('afterend', article);
+
+  article.appendChild(ensembleImage);   // div prinviap
+ ensembleImage.appendChild(imageAjouter);   // img avec une fonction
+ ensembleImage.appendChild(btnAjouterImage);   // bouton 
+ ensembleImage.appendChild(infoFormatTaille);   // label avec le message
+
+  article.appendChild(labelTitre);
   article.appendChild(titreNouvelleImage);
+  article.appendChild(labelCategorie);
   article.appendChild(selectCategorie);
   fillSelectWithOptions();
 };
