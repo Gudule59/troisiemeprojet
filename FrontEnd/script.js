@@ -168,11 +168,36 @@ function login(event) {
   window.location.href = "./login.html";
 }
 
-//titreGaleriemodal = document.getElementById('titremodal');
-//titreGaleriemodal.textContent = "Galerie Photo"; 
 
-//titreAjouterModal= document.getElementById('titremodal');
-//titreAjouterModal.textContent = "Ajouter une Photo"; 
+
+
+
+
+
+
+const displayAjouterModal = (travaux) => {
+
+  const modal = document.getElementById("titremodal"); // Sélectionnez l'élément de la modale
+  const article = document.createElement("article");
+  article.classList.add('Ajouter-modal'); 
+  const titreNouvelleImage = document.createElement("textarea");
+  titreNouvelleImage.classList.add('titreNouvelleImage'); 
+  const selectCategorie = document.createElement("select");
+  selectCategorie.classList.add('selectCategorie'); 
+ // selectCategorie.setAttribute("categoryId", works.category.id);
+
+  
+ 
+     modal.insertAdjacentElement('afterend', article);
+     article.appendChild(titreNouvelleImage);
+     article.appendChild(selectCategorie);
+   
+  
+ };
+
+
+
+
 
 const displayThumbnailsModal = (travaux) => {
  // const modalContent = document.querySelector("#modal .modal-content");
@@ -209,6 +234,7 @@ const openModalAjout = async function (event) {
   stopElement.addEventListener('click', stopPropagation);
   const closebtn = modal.querySelector('.close-btn');
   closebtn.addEventListener('click', closeModal);
+  displayAjouterModal();
 
   
   if (modal) {
