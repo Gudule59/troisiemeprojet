@@ -178,30 +178,49 @@ const displayThumbnailsModal = (travaux) => {
  // const modalContent = document.querySelector("#modal .modal-content");
  // modalContent.innerHTML = ''; // Efface le contenu précédent de la modal
  const modal = document.getElementById("titremodal"); // Sélectionnez l'élément de la modale
+ const article = document.createElement("article");
+ article.classList.add('thumbnail'); 
 
   travaux.forEach((works) => {
     const gallerieImage = document.createElement("div");
     gallerieImage.setAttribute("categoryId", works.category.id);
-    gallerieImage.classList.add('thumbnail'); // Ajoutez une classe pour le style CSS
+   
 
     // Créez une vignette pour chaque image
     const thumbnailImage = document.createElement("img");
     thumbnailImage.src = works.imageUrl;
-    thumbnailImage.classList.add('thumbnail'); // Ajoutez une classe pour le style CSS
+    thumbnailImage.classList.add('thumbnailImage'); // Ajoutez une classe pour le style CSS
 
 
-    modal.insertAdjacentElement('afterend', gallerieImage);
+    modal.insertAdjacentElement('afterend', article);
+    article.appendChild(gallerieImage);
     gallerieImage.appendChild(thumbnailImage);
   //  modal.appendChild(projetElement);
   });
 };
 
+const openModalAjout = async function (event) {
+  console.log(event);
+  event.preventDefault();
+  titreGaleriemodal = document.getElementById('titremodal');
+  titreGaleriemodal.textContent = "Ajouter une photo"; 
+  modal = document.getElementById("modal");
+  const stopElement = modal.querySelector('.modal-stop');
+  stopElement.addEventListener('click', stopPropagation);
+  const closebtn = modal.querySelector('.close-btn');
+  closebtn.addEventListener('click', closeModal);
 
+  
+  if (modal) {
+    modal.style.display = "flex";
+    backBtn = document.getElementById('back-btn');
+    backBtn.style.display = "block";
+    clearModalContent();
+    modal.addEventListener("click", closeModal);
+  }
 
-/*
- * @param {Event} event - the event that triggered the modal opening
- * @return {undefined}
- */
+  };
+
 const openModal = async function (event) {
   console.log(event);
   event.preventDefault();
@@ -212,8 +231,6 @@ const openModal = async function (event) {
   stopElement.addEventListener('click', stopPropagation);
   const closebtn = modal.querySelector('.close-btn');
   closebtn.addEventListener('click', closeModal);
-
- 
    const works = await getWorks(); // on attends les elements de l'api
    displayThumbnailsModal(works); // on les ajoutent
 
@@ -221,6 +238,10 @@ const openModal = async function (event) {
  
   if (modal) {
     modal.style.display = "flex";
+    backBtn = document.getElementById('back-btn');
+    backBtn.style.display = "none";
+    const modalBtn = document.querySelector('.modal-btn');
+    modalBtn.justifyContent= "end";
     modal.addEventListener("click", closeModal);
   }
 };
@@ -229,16 +250,16 @@ const stopPropagation = function (event) {
   event.stopPropagation()
 };
 
-/**
- * Closes the modal when called, preventing the default event behavior and
- * removing the modal display. Also removes the click event listener and sets
- * the modal to null.
- *
- * @param {event} event - The event object triggering the function
- * @return {undefined}
- */
+const clearModalContent = () => {
+  const modalthumbnail = document.querySelector("#modal  .thumbnail");
+  modalthumbnail.innerHTML = ''; 
+};
+
+
+
 const closeModal = function (event) {
   event.preventDefault();
+  clearModalContent();
   modal.style.display = "none";
   modal.removeEventListener("click", closeModal);
   modal = null;
@@ -288,4 +309,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   // Evenement pour ouvrir la modale
   const modifBtn = document.getElementById("modif");
   modifBtn.addEventListener("click", openModal);
+
+const backBtn = document.getElementById("back-btn");
+backBtn.addEventListener("click", openModal);
+
+const modalBtnEnvoyer = document.getElementById("modal-btn-envoyer");
+modalBtnEnvoyer.addEventListener("click", openModalAjout);
 });
