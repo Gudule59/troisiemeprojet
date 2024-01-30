@@ -175,25 +175,25 @@ function login(event) {
 
 
 
-const displayAjouterModal = (travaux) => {
 
-  const modal = document.getElementById("titremodal"); // Sélectionnez l'élément de la modale
+const displayAjouterModal = async (travaux) => {
+  const modal = document.getElementById("titremodal");
   const article = document.createElement("article");
   article.classList.add('Ajouter-modal'); 
   const titreNouvelleImage = document.createElement("textarea");
   titreNouvelleImage.classList.add('titreNouvelleImage'); 
   const selectCategorie = document.createElement("select");
   selectCategorie.classList.add('selectCategorie'); 
- // selectCategorie.setAttribute("categoryId", works.category.id);
 
-  
- 
-     modal.insertAdjacentElement('afterend', article);
-     article.appendChild(titreNouvelleImage);
-     article.appendChild(selectCategorie);
-   
-  
- };
+
+
+  modal.insertAdjacentElement('afterend', article);
+  article.appendChild(titreNouvelleImage);
+  article.appendChild(selectCategorie);
+};
+
+
+
 
 
 
