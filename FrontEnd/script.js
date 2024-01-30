@@ -169,8 +169,35 @@ function login(event) {
 }
 
 
+const fillSelectWithOptions = async () => {  // Recuperation des categories et integration au bouton select
+  const selectCategorie = document.querySelector('.selectCategorie');
 
+  try {
+    // Appel à la fonction getCategories pour récupérer les catégories depuis l'API
+    await getCategories(); 
+    console.log(getCategories);
 
+   
+    if (categories && categories.length > 0) {
+      // Parcourez les catégories et ajoutez-les au bouton select
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        selectCategorie.appendChild(option);
+      });
+    } else {
+      console.log("Aucune catégorie n'a été récupérée depuis l'API.");
+    }
+  } catch (error) {
+    console.error("Une erreur s'est produite lors du chargement des catégories :", error);
+  }
+};
+
+// Exécutez fillSelectWithOptions lorsque le DOM est entièrement chargé
+document.addEventListener('DOMContentLoaded', async () => {
+  await fillSelectWithOptions(); // Attendre que fillSelectWithOptions se termine
+});
 
 
 
@@ -190,6 +217,7 @@ const displayAjouterModal = async (travaux) => {
   modal.insertAdjacentElement('afterend', article);
   article.appendChild(titreNouvelleImage);
   article.appendChild(selectCategorie);
+  fillSelectWithOptions();
 };
 
 

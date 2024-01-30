@@ -486,3 +486,16 @@ button:focus {
 .titremodal {
 	color: #000000 !important;
 }
+.Ajouter-modal{
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	justify-content: center;
+	margin: 50Px;
+}
+
+.titreNouvelleImage{
+
+	width: 100%;
+	height: 100px;
+}
