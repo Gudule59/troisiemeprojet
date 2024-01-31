@@ -211,8 +211,14 @@ const displayAjouterModal = async (travaux) => {
   const ensembleImage= document.createElement("div");
   ensembleImage.classList.add('ensembleImage'); 
 
+  /************************** A revoir ******************************************/ 
   const imageAjouter= document.createElement("img");
+  imageAjouter.src = "./assets/icons/image-regular.svg";
+  //const imageAjouter= document.createElement("i");
+  //imageAjouter.classList.add("fa-regular&fa-image","imageAjouter");
+  // imageAjouter.alt = "Image Ajouter";  
   imageAjouter.classList.add('imageAjouter'); 
+/*//////////////////////////////////////////////////////////////*/
 
   const btnAjouterImage= document.createElement("button");
   btnAjouterImage.textContent = "+ Ajouter photo";
