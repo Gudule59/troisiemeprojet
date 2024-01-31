@@ -203,6 +203,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 
+
+
+
 const displayAjouterModal = async (travaux) => {
   const modal = document.getElementById("titremodal");
   const article = document.createElement("article");
@@ -218,11 +221,14 @@ const displayAjouterModal = async (travaux) => {
   //imageAjouter.classList.add("fa-regular&fa-image","imageAjouter");
   // imageAjouter.alt = "Image Ajouter";  
   imageAjouter.classList.add('imageAjouter'); 
+  imageAjouter.id = 'imageInput';
 /*//////////////////////////////////////////////////////////////*/
 
-  const btnAjouterImage= document.createElement("button");
-  btnAjouterImage.textContent = "+ Ajouter photo";
+  const btnAjouterImage= document.createElement("input");
+  btnAjouterImage.setAttribute('type', 'file');
+  btnAjouterImage.setAttribute('name', '+ Ajouter photo');
   btnAjouterImage.classList.add('btnAjouterImage'); 
+  btnAjouterImage.id = 'btnAjouterImage';
 
   const infoFormatTaille= document.createElement("label");
   infoFormatTaille.textContent = "jpg, png : 4mo max";
@@ -256,7 +262,49 @@ const displayAjouterModal = async (travaux) => {
   article.appendChild(labelCategorie);
   article.appendChild(selectCategorie);
   fillSelectWithOptions();
+  Imageuser();
+
+
+
 };
+
+const Imageuser = () => {
+  // Sélection de l'élément du bouton et de l'élément de l'entrée de fichier
+  const btnAjouterImage = document.getElementById('btnAjouterImage');
+  console.log("const btnAjouterImage");
+  const imageInput = document.getElementById('imageInput');
+  console.log("const image sortie");
+
+
+  // Écouteur d'événement pour le clic sur le bouton
+  btnAjouterImage.addEventListener('click', () => {
+      // Déclenchement du clic de l'élément d'entrée de fichier
+      imageInput.click();
+  });
+ 
+  // Écouteur d'événement pour le changement de fichier
+  imageInput.addEventListener('change', () => {
+    preventDefault();
+      const file = imageInput.files[0]; // Obtenez le premier fichier sélectionné
+  
+      // Vérifiez si un fichier a été sélectionné
+      if (file) {
+          // Vérifiez la taille du fichier (en octets)
+          if (file.size > 4 * 1024 * 1024) {
+              alert('Veuillez sélectionner une image de moins de 4 Mo.');
+              imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
+          } else {
+              // Faites quelque chose avec le fichier, par exemple, affichez-le
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                  const imagePreview = document.createElement('img');
+                  imagePreview.src = e.target.result;
+                  document.body.appendChild(imagePreview); // Par exemple, nous l'ajoutons au corps du document
+              };
+              reader.readAsDataURL(file);
+          }
+      }
+  })};
 
 
 
