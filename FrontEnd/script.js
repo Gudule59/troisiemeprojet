@@ -214,7 +214,21 @@ const displayAjouterModal = async (travaux) => {
   const ensembleImage= document.createElement("div");
   ensembleImage.classList.add('ensembleImage'); 
 
-  /************************** A revoir ******************************************/ 
+
+
+  const imagePreviewContainer = document.createElement("div");
+imagePreviewContainer.classList.add('image-preview-container');
+
+
+  /************************** A revoir ************************
+   * 
+   *  Boutons retour / fermer / la barre grise en mode fenetre
+   * 
+   * 
+   * 
+   * 
+   * 
+   * ******************/ 
   const imageAjouter= document.createElement("img");
   imageAjouter.src = "./assets/icons/image-regular.svg";
   //const imageAjouter= document.createElement("i");
@@ -252,10 +266,11 @@ const displayAjouterModal = async (travaux) => {
 
   modal.insertAdjacentElement('afterend', article);
 
-  article.appendChild(ensembleImage);   // div prinviap
+  article.appendChild(ensembleImage);   // div principal
  ensembleImage.appendChild(imageAjouter);   // img avec une fonction
  ensembleImage.appendChild(btnAjouterImage);   // bouton 
  ensembleImage.appendChild(infoFormatTaille);   // label avec le message
+ ensembleImage.appendChild(imagePreviewContainer); 
 
   article.appendChild(labelTitre);
   article.appendChild(titreNouvelleImage);
@@ -264,52 +279,46 @@ const displayAjouterModal = async (travaux) => {
   fillSelectWithOptions();
   Imageuser();
 
-
-
 };
 
+
 const Imageuser = () => {
-  // Sélection de l'élément du bouton et de l'élément de l'entrée de fichier
-  const btnAjouterImage = document.getElementById('btnAjouterImage');
-  console.log("const btnAjouterImage");
-  const imageInput = document.getElementById('imageInput');
-  console.log("const image sortie");
+  // Sélection de l'élément de l'entrée de fichier
+  const imageInput = document.getElementById('btnAjouterImage');
+  const imagePreviewContainer = document.querySelector('.image-preview-container');
 
-
-  // Écouteur d'événement pour le clic sur le bouton
-  btnAjouterImage.addEventListener('click', () => {
-      // Déclenchement du clic de l'élément d'entrée de fichier
-      imageInput.click();
-  });
- 
   // Écouteur d'événement pour le changement de fichier
   imageInput.addEventListener('change', () => {
-    preventDefault();
-      const file = imageInput.files[0]; // Obtenez le premier fichier sélectionné
-  
-      // Vérifiez si un fichier a été sélectionné
-      if (file) {
-          // Vérifiez la taille du fichier (en octets)
-          if (file.size > 4 * 1024 * 1024) {
-              alert('Veuillez sélectionner une image de moins de 4 Mo.');
-              imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
-          } else {
-              // Faites quelque chose avec le fichier, par exemple, affichez-le
-              const reader = new FileReader();
-              reader.onload = function (e) {
-                  const imagePreview = document.createElement('img');
-                  imagePreview.src = e.target.result;
-                  document.body.appendChild(imagePreview); // Par exemple, nous l'ajoutons au corps du document
-              };
-              reader.readAsDataURL(file);
-          }
+    const files = imageInput.files; // Obtenez la liste des fichiers sélectionnés
+
+    // Vérifiez si des fichiers ont été sélectionnés
+    if (files && files.length > 0) {
+      const file = files[0]; // Obtenez le premier fichier sélectionné
+
+      // Vérifiez la taille du fichier (en octets)
+      if (file.size > 3 * 1024 * 1024) {
+        alert('Veuillez sélectionner une image de moins de 4 Mo.');
+        imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
+        console.log("Error taille");
+      } else {
+        // Effacez les aperçus précédents s'il y en a
+        //imagePreviewContainer.innerHTML = '';
+
+        // Faites quelque chose avec le fichier, par exemple, affichez-le
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const imagePreview = document.createElement('img');
+          imagePreview.src = e.target.result;
+          imagePreview.classList.add('image-preview');
+          
+          // Ajoutez l'aperçu de l'image au conteneur d'aperçu d'image
+          imagePreviewContainer.appendChild(imagePreview);
+        };
+        reader.readAsDataURL(file);
       }
-  })};
-
-
-
-
-
+    }
+  });
+};
 
 
 
