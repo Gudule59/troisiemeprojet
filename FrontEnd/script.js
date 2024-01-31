@@ -296,7 +296,7 @@ const Imageuser = () => {
       const file = files[0]; // Obtenez le premier fichier sélectionné
 
       // Vérifiez la taille du fichier (en octets)
-      if (file.size > 3 * 1024 * 1024) {
+      if (file.size > 4 * 1024 * 1024) {
         alert('Veuillez sélectionner une image de moins de 4 Mo.');
         imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
         console.log("Error taille");
