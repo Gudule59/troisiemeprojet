@@ -117,6 +117,7 @@ function checkConnexion() {
   }
 }
 
+
 /**
  * Display the appropriate context based on the user's connection state.
  *
@@ -213,6 +214,7 @@ const displayAjouterModal = async (travaux) => {
 
   const ensembleImage= document.createElement("div");
   ensembleImage.classList.add('ensembleImage'); 
+  ensembleImage.id = 'ensembleImage';
 
 
 
@@ -247,6 +249,7 @@ imagePreviewContainer.classList.add('image-preview-container');
   const infoFormatTaille= document.createElement("label");
   infoFormatTaille.textContent = "jpg, png : 4mo max";
   infoFormatTaille.classList.add('infoFormatTaille'); 
+  infoFormatTaille.id = 'infoFormatTaille';
 
   const labelTitre= document.createElement("label");
   labelTitre.textContent = "Titre";
@@ -304,15 +307,24 @@ const Imageuser = () => {
         // Effacez les aperçus précédents s'il y en a
         //imagePreviewContainer.innerHTML = '';
 
-        // Faites quelque chose avec le fichier, par exemple, affichez-le
+        // affiche la photo
         const reader = new FileReader();
         reader.onload = function (e) {
           const imagePreview = document.createElement('img');
           imagePreview.src = e.target.result;
           imagePreview.classList.add('image-preview');
-          
+       // supprime ce qu'il y a uniquement dans le cadre elementImage si il est present
+          const ensembleImage = document.getElementById('ensembleImage');
+          if (ensembleImage) {
+              ensembleImage.innerHTML = '';
+          }
+
           // Ajoutez l'aperçu de l'image au conteneur d'aperçu d'image
+          ensembleImage.appendChild(imagePreviewContainer); 
           imagePreviewContainer.appendChild(imagePreview);
+        
+          
+
         };
         reader.readAsDataURL(file);
       }
@@ -404,11 +416,16 @@ const clearModalContent = () => {
   modalthumbnail.innerHTML = ''; 
 };
 
+const clearAjoutImageModal = () => {
+  const modalthumbnail = document.querySelector("#modal  .displayAjouterModal");
+  modalthumbnail.innerHTML = ''; 
+};
 
 
 const closeModal = function (event) {
   event.preventDefault();
   clearModalContent();
+
   modal.style.display = "none";
   modal.removeEventListener("click", closeModal);
   modal = null;
