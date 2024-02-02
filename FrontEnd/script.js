@@ -237,7 +237,6 @@ imagePreviewContainer.classList.add('image-preview-container');
   const labelTitre= document.createElement("label");
   labelTitre.textContent = "Titre";
   labelTitre.classList.add('titreSelect');
-
   
   const titreNouvelleImage = document.createElement("input");
   titreNouvelleImage.setAttribute("type", "text");
@@ -245,6 +244,7 @@ imagePreviewContainer.classList.add('image-preview-container');
   labelCategorie.textContent = "Catégorie";
   labelCategorie.classList.add('categorieSelect');
   titreNouvelleImage.classList.add('titreNouvelleImage'); 
+  titreNouvelleImage.setAttribute("required", "required");
   const selectCategorie = document.createElement("select");
   selectCategorie.classList.add('selectCategorie'); 
 
@@ -419,8 +419,10 @@ const clearModalContent = () => {
 };
 
 const clearAjoutImageModal = () => {
-          const deleteModalAjouter = document.querySelector("#modal  .mainConteneur");
-          deleteModalAjouter.innerHTML = ''; 
+  const modalAjouter = document.querySelector(".Ajouter-modal");
+  if (modalAjouter) {
+      modalAjouter.remove();
+  }
 };
 
 
