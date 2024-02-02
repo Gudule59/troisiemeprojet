@@ -277,6 +277,10 @@ const displayAjouterModal = async (travaux) => {
     modal.style.display = "flex";
     backBtn = document.getElementById('back-btn');
     backBtn.style.display = "none";
+    modalBtnValider = document.getElementById('modal-btn-valider');
+    modalBtnValider.style.display = "none";
+    modalBtnEnvoyer = document.getElementById('modal-btn-envoyer');
+    modalBtnEnvoyer.style.display = "block";
     const modalBtn = document.querySelector('.modal-btn');
     modalBtn.justifyContent= "end";
     modal.addEventListener("click", closeModal);
@@ -365,7 +369,7 @@ const openModalAjout = async function (event) {
   event.preventDefault();
   titreGaleriemodal = document.getElementById('titremodal');
   titreGaleriemodal.textContent = "Ajouter une photo"; 
-  modal = document.getElementById("modal");
+  modalAjout = document.getElementById("modal");
   const stopElement = modal.querySelector('.modal-stop');
   stopElement.addEventListener('click', stopPropagation);
   const closebtn = modal.querySelector('.close-btn');
@@ -373,10 +377,14 @@ const openModalAjout = async function (event) {
   displayAjouterModal();
 
   
-  if (modal) {
+  if (modalAjout) {
     modal.style.display = "flex";
     backBtn = document.getElementById('back-btn');
     backBtn.style.display = "block";
+    modalBtnValider = document.getElementById('modal-btn-valider');
+    modalBtnValider.style.display = "block";
+    modalBtnEnvoyer = document.getElementById('modal-btn-envoyer');
+    modalBtnEnvoyer.style.display = "none";
     clearModalContent();
     modal.addEventListener("click", closeModal);
   }
@@ -403,6 +411,10 @@ const openModal = async function (event) {
     backBtn = document.getElementById('back-btn');
     backBtn.style.display = "none";
     clearAjoutImageModal();
+    modalBtnValider = document.getElementById('modal-btn-valider');
+    modalBtnValider.style.display = "none";
+    modalBtnEnvoyer = document.getElementById('modal-btn-envoyer');
+    modalBtnEnvoyer.style.display = "block";
     const modalBtn = document.querySelector('.modal-btn');
     modalBtn.justifyContent= "end";
     modal.addEventListener("click", closeModal);

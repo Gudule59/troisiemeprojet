@@ -558,3 +558,6 @@ margin-bottom: 20px;
 	height: 245px;
 
 }
+.modal-btn-valider{
+display: none;
+}
