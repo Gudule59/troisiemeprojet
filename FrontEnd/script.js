@@ -201,36 +201,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-
-
-
-
-
-
-const displayAjouterModal = async (travaux) => {
+const creationElementModalAjouter = async () => {
   const modal = document.getElementById("titremodal");
   const article = document.createElement("article");
   article.classList.add('Ajouter-modal'); 
+  const mainConteneur = document.createElement("div");
+  article.classList.add('mainConteneur'); 
+  mainConteneur.id = 'mainConteneur';
 
   const ensembleImage= document.createElement("div");
   ensembleImage.classList.add('ensembleImage'); 
   ensembleImage.id = 'ensembleImage';
-
-
-
   const imagePreviewContainer = document.createElement("div");
 imagePreviewContainer.classList.add('image-preview-container');
-
-
-  /************************** A revoir ************************
-   * 
-   *  Boutons retour / fermer / la barre grise en mode fenetre
-   * 
-   * 
-   * 
-   * 
-   * 
-   * ******************/ 
   const imageAjouter= document.createElement("img");
   imageAjouter.src = "./assets/icons/image-regular.svg";
   //const imageAjouter= document.createElement("i");
@@ -265,22 +248,40 @@ imagePreviewContainer.classList.add('image-preview-container');
   const selectCategorie = document.createElement("select");
   selectCategorie.classList.add('selectCategorie'); 
 
-
-
   modal.insertAdjacentElement('afterend', article);
-
-  article.appendChild(ensembleImage);   // div principal
+  
+  article.appendChild(mainConteneur); 
+  mainConteneur.appendChild(ensembleImage);   // div principal
  ensembleImage.appendChild(imageAjouter);   // img avec une fonction
  ensembleImage.appendChild(btnAjouterImage);   // bouton 
  ensembleImage.appendChild(infoFormatTaille);   // label avec le message
  ensembleImage.appendChild(imagePreviewContainer); 
 
-  article.appendChild(labelTitre);
-  article.appendChild(titreNouvelleImage);
-  article.appendChild(labelCategorie);
-  article.appendChild(selectCategorie);
+ mainConteneur.appendChild(labelTitre);
+ mainConteneur.appendChild(titreNouvelleImage);
+ mainConteneur.appendChild(labelCategorie);
+ mainConteneur.appendChild(selectCategorie);
+
+}
+
+
+
+
+
+const displayAjouterModal = async (travaux) => {
+  creationElementModalAjouter ();
   fillSelectWithOptions();
   Imageuser();
+
+  if (modal) {
+    modal.style.display = "flex";
+    backBtn = document.getElementById('back-btn');
+    backBtn.style.display = "none";
+    const modalBtn = document.querySelector('.modal-btn');
+    modalBtn.justifyContent= "end";
+    modal.addEventListener("click", closeModal);
+  }
+
 
 };
 
@@ -401,6 +402,7 @@ const openModal = async function (event) {
     modal.style.display = "flex";
     backBtn = document.getElementById('back-btn');
     backBtn.style.display = "none";
+    clearAjoutImageModal();
     const modalBtn = document.querySelector('.modal-btn');
     modalBtn.justifyContent= "end";
     modal.addEventListener("click", closeModal);
@@ -417,15 +419,15 @@ const clearModalContent = () => {
 };
 
 const clearAjoutImageModal = () => {
-  const modalthumbnail = document.querySelector("#modal  .displayAjouterModal");
-  modalthumbnail.innerHTML = ''; 
+          const deleteModalAjouter = document.querySelector("#modal  .mainConteneur");
+          deleteModalAjouter.innerHTML = ''; 
 };
 
 
 const closeModal = function (event) {
   event.preventDefault();
   clearModalContent();
-
+  clearAjoutImageModal();
   modal.style.display = "none";
   modal.removeEventListener("click", closeModal);
   modal = null;
