@@ -2,6 +2,7 @@
 let categories;
 let travaux;
 let modal = null;
+let imageUrl = '';
 
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
@@ -320,7 +321,7 @@ const Imageuser = () => {
         console.log("Error taille");
       } else {
     
-        const imageUrl = URL.createObjectURL(file);
+        imageUrl = URL.createObjectURL(file);
         console.log('URL de l\'image:'+ imageUrl);
     
 
@@ -594,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = {
             // Les données du nouveau projet que vous souhaitez envoyer
           title: titre,
-          image: image,
+          image: imageUrl,//test avec fonction global
           category: categorie
               };
     
