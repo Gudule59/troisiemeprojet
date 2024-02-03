@@ -301,11 +301,13 @@ const displayAjouterModal = async (travaux) => {
 const Imageuser = () => {
   // Sélection de l'élément de l'entrée de fichier
   const imageInput = document.getElementById('btnAjouterImage');
+  console.log(" element imageInput  "+ imageInput)
   const imagePreviewContainer = document.querySelector('.image-preview-container');
 
   // Écouteur d'événement pour le changement de fichier
   imageInput.addEventListener('change', () => {
     const files = imageInput.files; // Obtenez la liste des fichiers sélectionnés
+    console.log(" element input  "+ files)
 
     // Vérifiez si des fichiers ont été sélectionnés
     if (files && files.length > 0) {
@@ -317,6 +319,9 @@ const Imageuser = () => {
         imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
         console.log("Error taille");
       } else {
+    
+        const imageUrl = URL.createObjectURL(file);
+        console.log('URL de l\'image:'+ imageUrl);
     
 
         // affiche la photo
@@ -578,10 +583,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const envoyerImage = document.getElementById('mainConteneur');
   
           // Récupérer les valeurs des champs du formulaire
-          const image = document.getElementById('imagePreviewContainer').getAttribute('src');
+          const image = document.getElementById('imageUrl');
+          console.log('je verifie l\'image' + image)
           const titre = document.getElementById('titreNouvelleImage').value;
+          console.log('je verifie le titre' + titre)
           const categorie = document.getElementById('selectCategorie').value;
-          console.log('je recupere les elements')
+          console.log('je verifie la categorie' + categorie)
+         
 
         const data = {
             // Les données du nouveau projet que vous souhaitez envoyer
