@@ -325,6 +325,9 @@ const Imageuser = () => {
           const imagePreview = document.createElement('img');
           imagePreview.src = e.target.result;
           imagePreview.classList.add('image-preview');
+          imagePreview.id = 'imagePreview';
+
+
        // supprime ce qu'il y a uniquement dans le cadre elementImage si il est present
           const ensembleImage = document.getElementById('ensembleImage');
           if (ensembleImage) {
@@ -390,6 +393,7 @@ const openModalAjout = async function (event) {
     backBtn.style.display = "block";
     modalBtnValider = document.getElementById('modal-btn-valider');
     modalBtnValider.style.display = "block";
+    modalBtnValider.addEventListener('click', sendimage);
     modalBtnEnvoyer = document.getElementById('modal-btn-envoyer');
     modalBtnEnvoyer.style.display = "none";
     clearModalContent();
@@ -566,63 +570,47 @@ document.addEventListener('DOMContentLoaded', function () {
    });
   })
 
-  document.addEventListener('DOMContentLoaded', function () {
-    // Sélectionner le formulaire
-    const envoyerImage = document.getElementById('mainConteneur');
+
   
-    // Ajouter un écouteur d'événements sur la soumission du formulaire
-    envoyerImage.addEventListener('submit', function (event) {
-      event.preventDefault();
+      const sendimage = async () => {
+        const token = localStorage.getItem("token");
+        console.log('je verifie le token' + token)
+        const envoyerImage = document.getElementById('mainConteneur');
   
-      // Récupérer les valeurs des champs du formulaire
-      const image = document.getElementById('imagePreviewContainer').value;
-      const titre = document.getElementById('titreNouvelleImage').value;
-      const categorie = document.getElementById('selectCategorie').value;
+          // Récupérer les valeurs des champs du formulaire
+          const image = document.getElementById('imagePreviewContainer').getAttribute('src');
+          const titre = document.getElementById('titreNouvelleImage').value;
+          const categorie = document.getElementById('selectCategorie').value;
+          console.log('je recupere les elements')
+
+        const url = 'http://localhost:5678/api/works'; // L'URL de l'API pour envoyer de nouveaux projets
+
+        const data = {
+            // Les données du nouveau projet que vous souhaitez envoyer
+            title: titre,
+            imageUrl: image,
+            categoryId: categorie
+              };
+    
+        try {
+            const response = await fetch ('http://localhost:5678/api/works', {
+                method: 'POST', // Méthode POST pour l'envoi de données
+                headers: {
+                  'Authorization': `Bearer ${token}`, // Ajout du token d'authentification dans l'en-tête
+                    'Content-Type': 'application/json' // Type de contenu JSON
+                    
+                },
+                body: JSON.stringify(data) // Conversion des données en format JSON
+            });
+    
+            if (response.ok) {
+                console.log('Nouveau projet envoyé avec succès!');
+                // Traitez la réponse si nécessaire
+            } else {
+                console.error('Erreur lors de l\'envoi du nouveau projet:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Une erreur s\'est produite:', error);
+        }
+    };
   
-      // Créer un objet avec les données à envoyer
-      const postData = {
-        title: titre,
-        imageUrl: image,
-        categoryId: categorie,
-      };
-  
-      // Configuration de la requête
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      };
-  
-       // Effectuer la requête
-       fetch("http://localhost:5678/api/works", requestOptions)
-       .then((response) => {
-         if (response.ok) {
-           //console.log(response.json());
-           return response.json();
-         } else {
-           console.log("la requête n'a pas abouti");
-           const msg = document.getElementById("alert");
-           msg.style.display = "block";
-           throw new Error("Identifiants incorrects");
-         }
-       })
-       .then((data) => {
-         // données renvoyées par l'API
-         console.log("Information sur la recuperation du TOKEN :", data);
-  
-         const token = data.token;
-         console.log(token);
-         localStorage.setItem("token", token.toString());
-        
-         
-         window.location.href = "./index.html";
-       })
-       .catch((error) => {
-         // Gérer les erreurs
-         console.error("Erreur de requête vers l'API:", error);
-         //alert("Identifiants incorrects. Veuillez réessayer.");
-       });
-   });
-  })
