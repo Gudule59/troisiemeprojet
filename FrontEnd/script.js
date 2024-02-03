@@ -214,6 +214,7 @@ const creationElementModalAjouter = async () => {
   ensembleImage.id = 'ensembleImage';
   const imagePreviewContainer = document.createElement("div");
 imagePreviewContainer.classList.add('image-preview-container');
+imagePreviewContainer.id = 'imagePreviewContainer';
   const imageAjouter= document.createElement("img");
   imageAjouter.src = "./assets/icons/image-regular.svg";
   //const imageAjouter= document.createElement("i");
@@ -240,13 +241,18 @@ imagePreviewContainer.classList.add('image-preview-container');
   
   const titreNouvelleImage = document.createElement("input");
   titreNouvelleImage.setAttribute("type", "text");
+  titreNouvelleImage.classList.add('titreNouvelleImage'); 
+  titreNouvelleImage.setAttribute("required", "required");
+  titreNouvelleImage.id = 'titreNouvelleImage';
+
   const labelCategorie = document.createElement("label");
   labelCategorie.textContent = "Catégorie";
   labelCategorie.classList.add('categorieSelect');
-  titreNouvelleImage.classList.add('titreNouvelleImage'); 
-  titreNouvelleImage.setAttribute("required", "required");
+
+  
   const selectCategorie = document.createElement("select");
   selectCategorie.classList.add('selectCategorie'); 
+  selectCategorie.id = 'selectCategorie';
 
   modal.insertAdjacentElement('afterend', article);
   
@@ -272,6 +278,8 @@ const displayAjouterModal = async (travaux) => {
   creationElementModalAjouter ();
   fillSelectWithOptions();
   Imageuser();
+
+  
 
   if (modal) {
     modal.style.display = "flex";
@@ -309,8 +317,7 @@ const Imageuser = () => {
         imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
         console.log("Error taille");
       } else {
-        // Effacez les aperçus précédents s'il y en a
-        //imagePreviewContainer.innerHTML = '';
+    
 
         // affiche la photo
         const reader = new FileReader();
@@ -498,3 +505,124 @@ backBtn.addEventListener("click", openModal);
 const modalBtnEnvoyer = document.getElementById("modal-btn-envoyer");
 modalBtnEnvoyer.addEventListener("click", openModalAjout);
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // Sélectionner le formulaire
+    const envoyerImage = document.getElementById('mainConteneur');
+  
+    // Ajouter un écouteur d'événements sur la soumission du formulaire
+    envoyerImage.addEventListener('submit', function (event) {
+      event.preventDefault();
+  
+      // Récupérer les valeurs des champs du formulaire
+      const image = document.getElementById('imagePreviewContainer').value;
+      const titre = document.getElementById('titreNouvelleImage').value;
+      const categorie = document.getElementById('selectCategorie').value;
+  
+      // Créer un objet avec les données à envoyer
+      const postData = {
+        title: titre,
+        imageUrl: image,
+        categoryId: categorie,
+      };
+  
+      // Configuration de la requête
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      };
+  
+       // Effectuer la requête
+       fetch("http://localhost:5678/api/works", requestOptions)
+       .then((response) => {
+         if (response.ok) {
+           //console.log(response.json());
+           return response.json();
+         } else {
+           console.log("la requête n'a pas abouti");
+           const msg = document.getElementById("alert");
+           msg.style.display = "block";
+           throw new Error("Identifiants incorrects");
+         }
+       })
+       .then((data) => {
+         // données renvoyées par l'API
+         console.log("Information sur la recuperation du TOKEN :", data);
+  
+         const token = data.token;
+         console.log(token);
+         localStorage.setItem("token", token.toString());
+        
+         
+         window.location.href = "./index.html";
+       })
+       .catch((error) => {
+         // Gérer les erreurs
+         console.error("Erreur de requête vers l'API:", error);
+         //alert("Identifiants incorrects. Veuillez réessayer.");
+       });
+   });
+  })
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Sélectionner le formulaire
+    const envoyerImage = document.getElementById('mainConteneur');
+  
+    // Ajouter un écouteur d'événements sur la soumission du formulaire
+    envoyerImage.addEventListener('submit', function (event) {
+      event.preventDefault();
+  
+      // Récupérer les valeurs des champs du formulaire
+      const image = document.getElementById('imagePreviewContainer').value;
+      const titre = document.getElementById('titreNouvelleImage').value;
+      const categorie = document.getElementById('selectCategorie').value;
+  
+      // Créer un objet avec les données à envoyer
+      const postData = {
+        title: titre,
+        imageUrl: image,
+        categoryId: categorie,
+      };
+  
+      // Configuration de la requête
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      };
+  
+       // Effectuer la requête
+       fetch("http://localhost:5678/api/works", requestOptions)
+       .then((response) => {
+         if (response.ok) {
+           //console.log(response.json());
+           return response.json();
+         } else {
+           console.log("la requête n'a pas abouti");
+           const msg = document.getElementById("alert");
+           msg.style.display = "block";
+           throw new Error("Identifiants incorrects");
+         }
+       })
+       .then((data) => {
+         // données renvoyées par l'API
+         console.log("Information sur la recuperation du TOKEN :", data);
+  
+         const token = data.token;
+         console.log(token);
+         localStorage.setItem("token", token.toString());
+        
+         
+         window.location.href = "./index.html";
+       })
+       .catch((error) => {
+         // Gérer les erreurs
+         console.error("Erreur de requête vers l'API:", error);
+         //alert("Identifiants incorrects. Veuillez réessayer.");
+       });
+   });
+  })
