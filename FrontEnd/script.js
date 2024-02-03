@@ -583,21 +583,20 @@ document.addEventListener('DOMContentLoaded', function () {
           const categorie = document.getElementById('selectCategorie').value;
           console.log('je recupere les elements')
 
-        const url = 'http://localhost:5678/api/works'; // L'URL de l'API pour envoyer de nouveaux projets
-
         const data = {
             // Les données du nouveau projet que vous souhaitez envoyer
-            title: titre,
-            imageUrl: image,
-            categoryId: categorie
+          title: titre,
+          image: image,
+          category: categorie
               };
     
         try {
             const response = await fetch ('http://localhost:5678/api/works', {
                 method: 'POST', // Méthode POST pour l'envoi de données
                 headers: {
-                  'Authorization': `Bearer ${token}`, // Ajout du token d'authentification dans l'en-tête
-                    'Content-Type': 'application/json' // Type de contenu JSON
+                  
+                    'Content-Type': 'application/json', // Type de contenu JSON
+                    'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans l'en-tête
                     
                 },
                 body: JSON.stringify(data) // Conversion des données en format JSON
@@ -605,7 +604,8 @@ document.addEventListener('DOMContentLoaded', function () {
     
             if (response.ok) {
                 console.log('Nouveau projet envoyé avec succès!');
-                // Traitez la réponse si nécessaire
+                window.location.href = "./index.html";
+
             } else {
                 console.error('Erreur lors de l\'envoi du nouveau projet:', response.statusText);
             }
