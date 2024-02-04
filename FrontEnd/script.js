@@ -520,6 +520,62 @@ document.addEventListener('DOMContentLoaded', function () {
    });
   })
 
+
+  const Imageuser = () => {
+    // Sélection de l'élément de l'entrée de fichier
+    const imageInput = document.getElementById('btnAjouterImage');
+    console.log(" element imageInput  "+ imageInput)
+    const imagePreviewContainer = document.querySelector('.image-preview-container');
+  
+    // Écouteur d'événement pour le changement de fichier
+    imageInput.addEventListener('change', () => {
+      const files = imageInput.files; // Obtenez la liste des fichiers sélectionnés
+      console.log(" element input  "+ files)
+  
+      // Vérifiez si des fichiers ont été sélectionnés
+      if (files && files.length > 0) {
+        const file = files[0]; // Obtenez le premier fichier sélectionné
+  
+        // Vérifiez la taille du fichier (en octets)
+        if (file.size > 4 * 1024 * 1024) {
+          alert('Veuillez sélectionner une image de moins de 4 Mo.');
+          imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
+          console.log("Error taille");
+        } else {
+      
+          imageUrl = URL.createObjectURL(file);
+          console.log('URL de l\'image:'+ imageUrl);
+      
+  
+          // affiche la photo
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const imagePreview = document.createElement('img');
+            imagePreview.src = e.target.result;
+            imagePreview.classList.add('image-preview');
+            imagePreview.id = 'imagePreview';
+  
+  
+         // supprime ce qu'il y a uniquement dans le cadre elementImage si il est present
+            const ensembleImage = document.getElementById('ensembleImage');
+            if (ensembleImage) {
+                ensembleImage.innerHTML = '';
+            }
+  
+            // Ajoutez l'aperçu de l'image au conteneur d'aperçu d'image
+            ensembleImage.appendChild(imagePreviewContainer); 
+            imagePreviewContainer.appendChild(imagePreview);
+          
+            
+  
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    });
+  };
+  
+
   
   
       const sendimage = async () => {
@@ -539,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = {
         
           title: titre,
-          image: image,//test avec fonction global
+          image: imageAjouterUrl,//test avec fonction global
           category: categorie
               };
     
