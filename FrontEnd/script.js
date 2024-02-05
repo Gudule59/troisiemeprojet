@@ -316,12 +316,22 @@ const displayThumbnailsModal = (travaux) => {
     thumbnailImage.src = works.imageUrl;
     thumbnailImage.classList.add('thumbnailImage'); // Ajoutez une classe pour le style CSS
 
+    const imageDelete = document.createElement('button');
+    imageDelete.textContent = 'Supprime image'; 
+    imageDelete.classList.add('delete-btn'); 
+
+    // Ajoutez un gestionnaire d'événements au bouton si nécessaire
+    imageDelete.addEventListener('click', () => {
+        // Actions à effectuer lorsque le bouton est cliqué
+    });
 
     modal.insertAdjacentElement('afterend', article);
     article.appendChild(gallerieImage);
     gallerieImage.appendChild(thumbnailImage);
-  //  modal.appendChild(projetElement);
+    gallerieImage.appendChild(imageDelete);
+
   });
+
 };
 
 const openModalAjout = async function (event) {
@@ -595,7 +605,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = {
         
           title: titre,
-          image: imageAjouterUrl,//test avec fonction global
+          image: image,//test avec fonction global
           category: categorie
               };
     
