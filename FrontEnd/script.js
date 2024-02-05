@@ -609,13 +609,18 @@ const sendimage = async () => {
     console.log(imageUrl);
     console.log(categorie);
     
-
-
+    const imageFile = await fetch(imageUrl)
+    .then(response => response.blob())
+    .then(blob => new File([blob], 'image.jpg', { type: 'image/jpeg' }));
+   
+  
+    console.log(imageFile);
     const formData = new FormData();
-    // Utilisez imageUrl comme l'image à envoyer
-    formData.append('image', imageUrl);
+
+    formData.append('image', imageFile);
     formData.append('title', titre);
     formData.append('category', categorie);
+console.log(formData)
 
     try {
         const response = await fetch('http://localhost:5678/api/works', {
