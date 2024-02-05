@@ -213,6 +213,11 @@ const creationElementModalAjouter = async () => {
   const ensembleImage= document.createElement("div");
   ensembleImage.classList.add('ensembleImage'); 
   ensembleImage.id = 'ensembleImage';
+  
+  const erreurTailleimage= document.createElement("label");
+  erreurTailleimage.textContent = "Vous devez reduire la taille à 4mo max";
+  erreurTailleimage.classList.add('alert'); 
+  erreurTailleimage.id = 'erreurTailleimage';
   const imagePreviewContainer = document.createElement("div");
 imagePreviewContainer.classList.add('image-preview-container');
 imagePreviewContainer.id = 'imagePreviewContainer';
@@ -227,7 +232,7 @@ imagePreviewContainer.id = 'imagePreviewContainer';
 
   const btnAjouterImage= document.createElement("input");
   btnAjouterImage.setAttribute('type', 'file');
-  btnAjouterImage.setAttribute('name', '+ Ajouter photo');
+  btnAjouterImage.setAttribute('name', 'nouveauNom');
   btnAjouterImage.classList.add('btnAjouterImage'); 
   btnAjouterImage.id = 'btnAjouterImage';
 
@@ -259,6 +264,7 @@ imagePreviewContainer.id = 'imagePreviewContainer';
   
   article.appendChild(mainConteneur); 
   mainConteneur.appendChild(ensembleImage);   // div principal
+  ensembleImage.appendChild(erreurTailleimage);
  ensembleImage.appendChild(imageAjouter);   // img avec une fonction
  ensembleImage.appendChild(btnAjouterImage);   // bouton 
  ensembleImage.appendChild(infoFormatTaille);   // label avec le message
@@ -280,8 +286,8 @@ const displayAjouterModal = async (travaux) => {
   fillSelectWithOptions();
   Imageuser();
 
-  
 
+ 
   if (modal) {
     modal.style.display = "flex";
     backBtn = document.getElementById('back-btn');
@@ -317,8 +323,10 @@ const displayThumbnailsModal = (travaux) => {
     thumbnailImage.classList.add('thumbnailImage'); // Ajoutez une classe pour le style CSS
 
     const imageDelete = document.createElement('button');
-    imageDelete.textContent = 'Supprime image'; 
     imageDelete.classList.add('delete-btn'); 
+    imageDelete.classList.add('fa-solid', 'fa-trash'); 
+   
+   
 
     // Ajoutez un gestionnaire d'événements au bouton si nécessaire
     imageDelete.addEventListener('click', () => {
@@ -572,7 +580,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const file = files[0];
 
             if (file.size > 4 * 1024 * 1024) {
-                alert('Veuillez sélectionner une image de moins de 4 Mo.');
+              erreurTailleimage = document.getElementById('erreurTailleimage');
+              erreurTailleimage.style.display = "flex";
                 imageInput.value = '';
             } else {
                 const reader = new FileReader();
