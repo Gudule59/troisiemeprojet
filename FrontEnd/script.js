@@ -560,106 +560,79 @@ document.addEventListener('DOMContentLoaded', function () {
    });
   })
 
-
   const Imageuser = () => {
-    // Sélection de l'élément de l'entrée de fichier
     const imageInput = document.getElementById('btnAjouterImage');
-    console.log(" element imageInput  "+ imageInput)
     const imagePreviewContainer = document.querySelector('.image-preview-container');
-  
-    // Écouteur d'événement pour le changement de fichier
+
     imageInput.addEventListener('change', () => {
-      const files = imageInput.files; // Obtenez la liste des fichiers sélectionnés
-      console.log(" element input  "+ files)
-  
-      // Vérifiez si des fichiers ont été sélectionnés
-      if (files && files.length > 0) {
-        const file = files[0]; // Obtenez le premier fichier sélectionné
-  
-        // Vérifiez la taille du fichier (en octets)
-        if (file.size > 4 * 1024 * 1024) {
-          alert('Veuillez sélectionner une image de moins de 4 Mo.');
-          imageInput.value = ''; // Réinitialisez la valeur de l'entrée de fichier
-          console.log("Error taille");
-        } else {
-      
-          imageUrl = URL.createObjectURL(file);
-          console.log('URL de l\'image:'+ imageUrl);
-      
-  
-          // affiche la photo
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const imagePreview = document.createElement('img');
-            imagePreview.src = e.target.result;
-            imagePreview.classList.add('image-preview');
-            imagePreview.id = 'imagePreview';
-  
-  
-         // supprime ce qu'il y a uniquement dans le cadre elementImage si il est present
-            const ensembleImage = document.getElementById('ensembleImage');
-            if (ensembleImage) {
-                ensembleImage.innerHTML = '';
-            }
-  
-            // Ajoutez l'aperçu de l'image au conteneur d'aperçu d'image
-            ensembleImage.appendChild(imagePreviewContainer); 
-            imagePreviewContainer.appendChild(imagePreview);
-          
-            
-  
-          };
-          reader.readAsDataURL(file);
-        }
-      }
-    });
-  };
-  
+        const files = imageInput.files;
 
-  
-  
-      const sendimage = async () => {
-        const token = localStorage.getItem("token");
-        console.log('je verifie le token => ' + token)
-        const envoyerImage = document.getElementById('mainConteneur');
-  
-          // Récupérer les valeurs des champs du formulaire
-          const image = imageUrl;
-          console.log('je verifie l\'image => ' + image)
-          const titre = document.getElementById('titreNouvelleImage').value;
-          console.log('je verifie le titre => ' + titre)
-          const categorie = document.getElementById('selectCategorie').value;
-          console.log('je verifie la categorie => ' + categorie)
-         
+        if (files && files.length > 0) {
+            const file = files[0];
 
-        const data = {
-        
-          title: titre,
-          image: imageUrl,//test avec fonction global
-          category: categorie
-              };
-    
-        try {
-            const response = await fetch ('http://localhost:5678/api/works', {
-                method: 'POST', // Méthode POST pour l'envoi de données
-                headers: {
-                  
-                    'Content-Type': 'application/json', // Type de contenu JSON
-                    'Authorization': `Bearer ${token}` // Ajout du token d'authentification dans l'en-tête
-                    
-                },
-                body: JSON.stringify(data) // Conversion des données en format JSON
-            });
-    
-            if (response.ok) {
-                console.log('Nouveau projet envoyé avec succès!');
-                window.location.href = "./index.html";
-
+            if (file.size > 4 * 1024 * 1024) {
+                alert('Veuillez sélectionner une image de moins de 4 Mo.');
+                imageInput.value = '';
             } else {
-                console.error('Erreur lors de l\'envoi du nouveau projet:', response.statusText);
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imagePreview = document.createElement('img');
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.add('image-preview');
+                    imagePreview.id = 'imagePreview';
+
+
+
+                    imageUrl = e.target.result;
+
+                    const ensembleImage = document.getElementById('ensembleImage');
+                    if (ensembleImage) {
+                        ensembleImage.innerHTML = '';
+                    }
+
+                    ensembleImage.appendChild(imagePreviewContainer);
+                    imagePreviewContainer.appendChild(imagePreview);
+
+                 
+                };
+                reader.readAsDataURL(file);
             }
-        } catch (error) {
-            console.error('Une erreur s\'est produite: ', error);
         }
-    };
-  
+    });
+};
+
+const sendimage = async () => {
+    const token = localStorage.getItem("token");
+    const titre = document.getElementById('titreNouvelleImage').value;
+    console.log(titre);
+    const categorie = document.getElementById('selectCategorie').value;
+    console.log(imageUrl);
+    console.log(categorie);
+    
+
+
+    const formData = new FormData();
+    // Utilisez imageUrl comme l'image à envoyer
+    formData.append('image', imageUrl);
+    formData.append('title', titre);
+    formData.append('category', categorie);
+
+    try {
+        const response = await fetch('http://localhost:5678/api/works', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        if (response.ok) {
+            console.log('Nouveau projet envoyé avec succès!');
+            window.location.href = "./index.html";
+        } else {
+            console.error('Erreur lors de l\'envoi du nouveau projet:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Une erreur s\'est produite: ', error);
+    }
+};
