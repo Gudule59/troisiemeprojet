@@ -380,7 +380,7 @@ const openModalAjout = async function (event) {
   if (modalAjout) {
     modal.style.display = "flex";
     backBtn = document.getElementById('back-btn');
-    backBtn.style.display = "block";
+    backBtn.style.display = "flex";
     modalBtnValider = document.getElementById('modal-btn-valider');
     modalBtnValider.style.display = "block";
     modalBtnValider.addEventListener('click', sendimage);
@@ -428,9 +428,10 @@ const stopPropagation = function (event) {
 
 const clearModalContent = () => {
   const modalthumbnail = document.querySelector("#modal  .thumbnail");
-  modalthumbnail.innerHTML = ''; 
+  if (modalthumbnail) {
+    modalthumbnail.remove();
+}
 };
-
 const clearAjoutImageModal = () => {
   const modalAjouter = document.querySelector(".Ajouter-modal");
   if (modalAjouter) {

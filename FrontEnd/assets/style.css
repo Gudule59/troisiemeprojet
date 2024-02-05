@@ -352,14 +352,12 @@ button:focus {
 }
 
 .barre-grise {
+	
     height: 3px; /* Hauteur de la barre */
-    width: 18%; /* Largeur de la barre */
-	margin-left: 100px;
-	margin-top: 110px;
+    width: 48%; /* Largeur de la barre */
+	margin-left: 160px;
     background-color: #B3B3B3; /* Couleur de la barre */
-	position: absolute;
-    top: 730px; /* Ajustez la valeur selon votre besoin */
-	right: 41%; 
+
 
 }
 
@@ -435,29 +433,22 @@ button:focus {
 
 }
 
-.modal-btn-envoyer {
-	position: absolute;
-	bottom: 110px;
-	left: 50%;
-	transform: translateX(-50%);
+.modal-btn{
+	display: flex;
+	justify-content: flex-end;
 }
+
 
 .back-btn {
 	border-color: white;
 	color: #000000;
-	display: flex;
-	position: absolute;
-    top: 208px; /* Ajustez la valeur selon votre besoin */
-    left: 36%;
-
+margin-right: 520px;
 }
 
 .close-btn {
 	border-color: white;
 	color: #000000;
-	position: absolute;
-    top: 215px; /* Ajustez la valeur selon votre besoin */
-	left: 62%;
+	
 }
 
 .thumbnailImage {
@@ -471,7 +462,8 @@ button:focus {
 	width: 76.61px;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	margin-left: 90px;
+	margin-left: 70px;
+	padding-bottom: 150px;
 	
 }
 
@@ -491,15 +483,16 @@ button:focus {
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
-	margin: 50Px;
+
 }
 
 .mainConteneur {
 	display:flex;
-	height: 480px;
+	height: 400px;
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
+	margin-bottom: 95px;
 
 
 }
@@ -514,6 +507,7 @@ button:focus {
 	width: 100%;
 	height: 40px;
 	margin-top: 10px;
+	margin-bottom: 15px;
 }
 
 .titreSelect, .categorieSelect{
@@ -530,6 +524,7 @@ margin-top: 20px;
 background-color: #E8F1F6;
 width: 100%;
 height: 250px;
+margin-bottom: 15px;
 
 }
 .btnAjouterImage{
