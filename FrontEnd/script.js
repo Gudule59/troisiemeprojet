@@ -322,7 +322,7 @@ const displayThumbnailsModal = (travaux) => {
 
     // Ajoutez un gestionnaire d'événements au bouton si nécessaire
     imageDelete.addEventListener('click', () => {
-        // Actions à effectuer lorsque le bouton est cliqué
+      deleteTravaux(works.id)
     });
 
     modal.insertAdjacentElement('afterend', article);
@@ -333,6 +333,36 @@ const displayThumbnailsModal = (travaux) => {
   });
 
 };
+
+const deleteTravaux = (workId) => {
+
+  const token = localStorage.getItem("token");
+  console.log('je verifie le token => ' + token)
+  
+  fetch(`http://localhost:5678/api/works/${workId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`, // Ajout du token d'authentification dans l'en-tête
+          'Accept': '*/*'
+      }
+  })
+  .then(response => {
+      if (response.ok) {
+          // L'image a été supprimée avec succès, vous pouvez faire quelque chose si nécessaire
+          console.log('Image supprimée avec succès');
+      } else {
+          throw new Error('Erreur lors de la suppression de l\'image');
+      }
+  })
+  .catch(error => {
+      console.error('Erreur:', error);
+  });
+};
+
+
+
+
+
 
 const openModalAjout = async function (event) {
   console.log(event);
