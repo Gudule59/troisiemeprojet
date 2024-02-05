@@ -2,7 +2,7 @@
 let categories;
 let travaux;
 let modal = null;
-let imageAjouterUrl = '';
+let imageUrl;
 
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
@@ -338,7 +338,7 @@ const deleteTravaux = (workId) => {
 
   const token = localStorage.getItem("token");
   console.log('je verifie le token => ' + token)
-  
+
   fetch(`http://localhost:5678/api/works/${workId}`, {
       method: 'DELETE',
       headers: {
@@ -624,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const envoyerImage = document.getElementById('mainConteneur');
   
           // Récupérer les valeurs des champs du formulaire
-          const image = imageAjouterUrl;
+          const image = imageUrl;
           console.log('je verifie l\'image => ' + image)
           const titre = document.getElementById('titreNouvelleImage').value;
           console.log('je verifie le titre => ' + titre)
@@ -635,7 +635,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = {
         
           title: titre,
-          image: image,//test avec fonction global
+          image: imageUrl,//test avec fonction global
           category: categorie
               };
     
