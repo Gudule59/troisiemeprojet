@@ -288,7 +288,7 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+.valider-contact{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -298,6 +298,7 @@ input[type="submit"] {
 	text-align: center;
 	border-radius: 60px;
 }
+
 
 footer nav ul {
 	display: flex;
@@ -312,7 +313,7 @@ footer nav ul {
 	justify-content: center;
 }
 
-button {
+.boutonObjets {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -327,8 +328,8 @@ button {
 	cursor: pointer;
 }
 
-button:active,
-button:focus {
+.boutonObjets:active,
+.boutonObjets:focus {
 	background-color: #1D6154;
 	color: white;
 }
@@ -356,6 +357,7 @@ button:focus {
     height: 3px; /* Hauteur de la barre */
     width: 48%; /* Largeur de la barre */
 	margin-left: 160px;
+	margin-bottom: 15px;
     background-color: #B3B3B3; /* Couleur de la barre */
 
 
@@ -384,6 +386,7 @@ button:focus {
 	color: black;
 	justify-content: center;
 	align-items: center;
+	background-color: white;
 }
 
 .btn-projet {
@@ -394,19 +397,6 @@ button:focus {
 
 }
 
-
-.modifier-btn:active,
-.modifier-btn:focus {
-	background-color: #000000 !important;
-	color: #FFFFFF !important;
-}
-
-.modif-btn:active,
-.modif-btn:focus,
-.close-btn:focus {
-	background-color: white !important;
-	color: black !important;
-}
 
 .modal {
 	display: none;
@@ -440,14 +430,16 @@ button:focus {
 
 
 .back-btn {
-	border-color: white;
+	background-color:  white;
+	border: none;
 	color: #000000;
-margin-right: 520px;
+margin-right: 585px;
 }
 
 .close-btn {
-	border-color: white;
+	background-color:  white;
 	color: #000000;
+	border: none;
 	
 }
 
@@ -455,6 +447,7 @@ margin-right: 520px;
 	width: 96.61px;
 	height: 122.57px;
 		margin-right: 10px;
+		margin-top: 10px;
 	
 }
 
@@ -463,7 +456,7 @@ margin-right: 520px;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	margin-left: 40px;
-	padding-bottom: 150px;
+	padding-bottom: 220px;
 	position: relative;
 
 	
@@ -496,7 +489,7 @@ margin-right: 520px;
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 90px;
+	margin-bottom: 124px;
 
 
 }
@@ -528,7 +521,8 @@ margin-top: 20px;
 background-color: #E8F1F6;
 width: 100%;
 height: 250px;
-margin-bottom: 15px;
+margin-bottom: 40px;
+margin-top: 45px;
 
 }
 
@@ -551,6 +545,7 @@ margin-bottom: 20px;
 padding-left: 30px;
 padding-right: 20px;
 
+
 }
 .infoFormatTaille{
 	margin-bottom: 40px;
@@ -568,22 +563,51 @@ padding-right: 20px;
 	height: 245px;
 
 }
-.modal-btn-valider{
+.valider{
 display: none;
+font-family: 'Syne';
+color: white;
+background-color: #A7A7A7;
+border:none;
+margin: auto;
+width: 180px;
+	padding-bottom: 10px;
+padding-top: 10px;
+text-align: center;
+border-radius: 60px;
 }
+
+.modal-btn-envoyer {
+
+	font-family: 'Syne';
+	color: white;
+	background-color: #1D6154;
+	border:none;
+	margin: auto;
+	width: 180px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+	text-align: center;
+	border-radius: 60px;
+	}
+	
 
 .delete-btn{
 	background-color: #000000;
 	border-radius: 2px;
+	padding-right: 12px;
 	height: 17px;
 	width: 17px;
 position: relative;
-top: -130px; 
-right: -59px; 
+top: -125px; 
+right: -74px; 
 
 	}
 	
 	.fa-trash{
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		color:white;
 		height: 11px;
 	width: 8px;
