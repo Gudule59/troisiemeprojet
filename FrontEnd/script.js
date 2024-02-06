@@ -265,6 +265,7 @@ imagePreviewContainer.id = 'imagePreviewContainer';
   article.appendChild(mainConteneur); 
   mainConteneur.appendChild(ensembleImage);   // div principal
   ensembleImage.appendChild(erreurTailleimage);
+
  ensembleImage.appendChild(imageAjouter);   // img avec une fonction
  ensembleImage.appendChild(btnAjouterImage);   // bouton 
  ensembleImage.appendChild(infoFormatTaille);   // label avec le message
@@ -324,7 +325,8 @@ const displayThumbnailsModal = (travaux) => {
 
     const imageDelete = document.createElement('button');
     imageDelete.classList.add('delete-btn'); 
-    imageDelete.classList.add('fa-solid', 'fa-trash'); 
+    const icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-trash'); 
    
    
 
@@ -337,7 +339,9 @@ const displayThumbnailsModal = (travaux) => {
     article.appendChild(gallerieImage);
     gallerieImage.appendChild(thumbnailImage);
     gallerieImage.appendChild(imageDelete);
+    imageDelete.appendChild(icon);
 
+    
   });
 
 };

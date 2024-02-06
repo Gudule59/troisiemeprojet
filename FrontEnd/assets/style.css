@@ -452,18 +452,20 @@ margin-right: 520px;
 }
 
 .thumbnailImage {
-	width: 76.61px;
-	height: 102.57px;
-	margin-top: 20px;
-	margin-left: 10px;
+	width: 96.61px;
+	height: 122.57px;
+		margin-right: 10px;
+	
 }
 
 .thumbnail {
 	width: 76.61px;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
-	margin-left: 70px;
+	margin-left: 40px;
 	padding-bottom: 150px;
+	position: relative;
+
 	
 }
 
@@ -473,6 +475,8 @@ margin-right: 520px;
 	/* 5 colonnes de largeur égale */
 	grid-gap: 2px;
 	/* Espace entre les vignettes */
+	position: relative;
+
 }
 
 .titremodal {
@@ -492,7 +496,7 @@ margin-right: 520px;
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 95px;
+	margin-bottom: 90px;
 
 
 }
@@ -556,3 +560,20 @@ margin-bottom: 20px;
 .modal-btn-valider{
 display: none;
 }
+
+.delete-btn{
+	background-color: #000000;
+	border-radius: 2px;
+	height: 17px;
+	width: 17px;
+position: relative;
+top: -130px; 
+right: -59px; 
+
+	}
+	
+	.fa-trash{
+		color:white;
+		height: 11px;
+	width: 8px;
+	}
