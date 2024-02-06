@@ -233,8 +233,12 @@ imagePreviewContainer.id = 'imagePreviewContainer';
   const btnAjouterImage= document.createElement("input");
   btnAjouterImage.setAttribute('type', 'file');
   btnAjouterImage.setAttribute('name', 'nouveauNom');
-  btnAjouterImage.classList.add('btnAjouterImage'); 
+  btnAjouterImage.classList.add('hidden-input');
   btnAjouterImage.id = 'btnAjouterImage';
+  const btnAjouterLabel = document.createElement("label");
+btnAjouterLabel.setAttribute('for', 'btnAjouterImage');
+btnAjouterLabel.textContent = "+ Ajouter une image";
+btnAjouterLabel.classList.add('btnAjouterImage'); 
 
   const infoFormatTaille= document.createElement("label");
   infoFormatTaille.textContent = "jpg, png : 4mo max";
@@ -267,6 +271,7 @@ imagePreviewContainer.id = 'imagePreviewContainer';
   ensembleImage.appendChild(erreurTailleimage);
 
  ensembleImage.appendChild(imageAjouter);   // img avec une fonction
+ ensembleImage.appendChild(btnAjouterLabel);
  ensembleImage.appendChild(btnAjouterImage);   // bouton 
  ensembleImage.appendChild(infoFormatTaille);   // label avec le message
  ensembleImage.appendChild(imagePreviewContainer); 
