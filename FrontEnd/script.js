@@ -83,6 +83,8 @@ const displayFilters = (categories) => {
     bouton.setAttribute("data-categorie-id", category.id);
     filtre.appendChild(bouton);
   });
+
+
 };
 
 /**
@@ -173,20 +175,27 @@ function login(event) {
 
 const fillSelectWithOptions = async () => {  // Recuperation des categories et integration au bouton select
   const selectCategorie = document.querySelector('.selectCategorie');
+  
 
   try {
     // Appel à la fonction getCategories pour récupérer les catégories depuis l'API
     await getCategories(); 
-    console.log(getCategories);
-
    
     if (categories && categories.length > 0) {
+      // Ajout de l'option vide par défaut
+      const defaultOption = document.createElement('option');
+      defaultOption.value = ''; // La valeur de l'option vide est vide
+      defaultOption.textContent = ''; // Texte à afficher dans l'option vide
+      defaultOption.selected = true; // Option sélectionnée par défaut
+      selectCategorie.appendChild(defaultOption);
+
       // Parcourez les catégories et ajoutez-les au bouton select
       categories.forEach(category => {
         const option = document.createElement('option');
         option.value = category.id;
         option.textContent = category.name;
         selectCategorie.appendChild(option);
+     
       });
     } else {
       console.log("Aucune catégorie n'a été récupérée depuis l'API.");
@@ -194,6 +203,7 @@ const fillSelectWithOptions = async () => {  // Recuperation des categories et i
   } catch (error) {
     console.error("Une erreur s'est produite lors du chargement des catégories :", error);
   }
+  
 };
 
 // Exécutez fillSelectWithOptions lorsque le DOM est entièrement chargé
@@ -214,21 +224,17 @@ const creationElementModalAjouter = async () => {
   ensembleImage.classList.add('ensembleImage'); 
   ensembleImage.id = 'ensembleImage';
   
-  const erreurTailleimage= document.createElement("label");
-  erreurTailleimage.textContent = "Vous devez reduire la taille à 4mo max";
-  erreurTailleimage.classList.add('alert'); 
-  erreurTailleimage.id = 'erreurTailleimage';
+  const MessageErreur= document.createElement("label");
+  MessageErreur.classList.add('alertajout'); 
+  MessageErreur.id = 'MessageErreur';
   const imagePreviewContainer = document.createElement("div");
 imagePreviewContainer.classList.add('image-preview-container');
 imagePreviewContainer.id = 'imagePreviewContainer';
   const imageAjouter= document.createElement("img");
   imageAjouter.src = "./assets/icons/image-regular.svg";
-  //const imageAjouter= document.createElement("i");
-  //imageAjouter.classList.add("fa-regular&fa-image","imageAjouter");
-  // imageAjouter.alt = "Image Ajouter";  
   imageAjouter.classList.add('imageAjouter'); 
   imageAjouter.id = 'imageInput';
-/*//////////////////////////////////////////////////////////////*/
+
 
   const btnAjouterImage= document.createElement("input");
   btnAjouterImage.setAttribute('type', 'file');
@@ -239,6 +245,7 @@ imagePreviewContainer.id = 'imagePreviewContainer';
 btnAjouterLabel.setAttribute('for', 'btnAjouterImage');
 btnAjouterLabel.textContent = "+ Ajouter une image";
 btnAjouterLabel.classList.add('btnAjouterImage'); 
+
 
   const infoFormatTaille= document.createElement("label");
   infoFormatTaille.textContent = "jpg, png : 4mo max";
@@ -267,9 +274,9 @@ btnAjouterLabel.classList.add('btnAjouterImage');
   modal.insertAdjacentElement('afterend', article);
   
   article.appendChild(mainConteneur); 
+  mainConteneur.appendChild(MessageErreur);
   mainConteneur.appendChild(ensembleImage);   // div principal
-  ensembleImage.appendChild(erreurTailleimage);
-
+ 
  ensembleImage.appendChild(imageAjouter);   // img avec une fonction
  ensembleImage.appendChild(btnAjouterLabel);
  ensembleImage.appendChild(btnAjouterImage);   // bouton 
@@ -291,7 +298,10 @@ const displayAjouterModal = async (travaux) => {
   creationElementModalAjouter ();
   fillSelectWithOptions();
   Imageuser();
-
+  const selectCategorie = document.querySelector('.selectCategorie');
+  selectCategorie.addEventListener('click', checkInputs(), () => {
+    console.log('Le bouton selectCategorie a été cliqué !');
+  });
 
  
   if (modal) {
@@ -393,6 +403,7 @@ const openModalAjout = async function (event) {
   closebtn.addEventListener('click', closeModal);
   displayAjouterModal();
 
+
   
   if (modalAjout) {
     modal.style.display = "flex";
@@ -400,11 +411,16 @@ const openModalAjout = async function (event) {
     backBtn.style.display = "flex";
     modalBtnValider = document.getElementById('modal-btn-valider');
     modalBtnValider.style.display = "block";
+    modalBtnValider.classList.add('valider');
     modalBtnValider.addEventListener('click', sendimage);
     modalBtnEnvoyer = document.getElementById('modal-btn-envoyer');
     modalBtnEnvoyer.style.display = "none";
     clearModalContent();
     modal.addEventListener("click", closeModal);
+    const selectCategorie = document.querySelector('.selectCategorie');
+    selectCategorie.addEventListener('change', checkInputs(), () => {
+      console.log('Le bouton selectCategorie a été cliqué !');
+    });
   }
 
   };
@@ -473,6 +489,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   // affichage contextualisé des boutons et bandeau
   displayContext();
   
+  
   // Événement pour le bouton de connexion
   const loginBtn = document.getElementById("loginLogoutLink");
   loginBtn.addEventListener("click", function (event) {
@@ -520,7 +537,7 @@ modalBtnEnvoyer.addEventListener("click", openModalAjout);
 document.addEventListener('DOMContentLoaded', function () {
     // Sélectionner le formulaire
     const envoyerImage = document.getElementById('mainConteneur');
-  
+ 
     // Ajouter un écouteur d'événements sur la soumission du formulaire
     envoyerImage.addEventListener('submit', function (event) {
       event.preventDefault();
@@ -589,21 +606,21 @@ document.addEventListener('DOMContentLoaded', function () {
             const file = files[0];
 
             if (file.size > 4 * 1024 * 1024) {
-              erreurTailleimage = document.getElementById('erreurTailleimage');
-              erreurTailleimage.style.display = "flex";
+              MessageErreur = document.getElementById('MessageErreur');
+              MessageErreur.textContent = "Vous devez reduire la taille à 4mo max";
+              MessageErreur.style.display = "flex";
                 imageInput.value = '';
             } else {
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const imagePreview = document.createElement('img');
+                    
                     imagePreview.src = e.target.result;
                     imagePreview.classList.add('image-preview');
                     imagePreview.id = 'imagePreview';
-
-
-
                     imageUrl = e.target.result;
-
+                    checkInputs();
+                  
                     const ensembleImage = document.getElementById('ensembleImage');
                     if (ensembleImage) {
                         ensembleImage.innerHTML = '';
@@ -611,23 +628,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     ensembleImage.appendChild(imagePreviewContainer);
                     imagePreviewContainer.appendChild(imagePreview);
-
-                 
+                    
+               
                 };
                 reader.readAsDataURL(file);
+                
+              
+
             }
         }
     });
 };
 
+
+
 const sendimage = async () => {
     const token = localStorage.getItem("token");
     const titre = document.getElementById('titreNouvelleImage').value;
-    console.log(titre);
     const categorie = document.getElementById('selectCategorie').value;
-    console.log(imageUrl);
-    console.log(categorie);
-    
+   
+
+    if (!imageUrl) {
+      MessageErreur = document.getElementById('MessageErreur');
+      MessageErreur.textContent = "Veuillez sélectionner une image.";
+      MessageErreur.style.display = "flex";
+      return; // Arrêter la fonction si le titre ou l'image est manquant
+  }
+  if (!titre) {
+      MessageErreur = document.getElementById('MessageErreur');
+      MessageErreur.textContent = "Veuillez ajouter un titre.";
+      MessageErreur.style.display = "flex";
+    return; 
+}
+if (!categorie) {
+  MessageErreur = document.getElementById('MessageErreur');
+        MessageErreur.textContent = "Veuillez ajouter une catégorie.";
+        MessageErreur.style.display = "flex";
+return; 
+}
+
+
     const imageFile = await fetch(imageUrl)
     .then(response => response.blob())
     .then(blob => new File([blob], 'image.jpg', { type: 'image/jpeg' }));
@@ -639,7 +679,7 @@ const sendimage = async () => {
     formData.append('image', imageFile);
     formData.append('title', titre);
     formData.append('category', categorie);
-console.log(formData)
+
 
     try {
         const response = await fetch('http://localhost:5678/api/works', {
@@ -660,3 +700,36 @@ console.log(formData)
         console.error('Une erreur s\'est produite: ', error);
     }
 };
+
+function checkInputs() {
+  const imageInput = document.getElementById('btnAjouterImage').value;
+  console.log(imageInput);
+  const titreInput = document.getElementById('titreNouvelleImage').value;
+  console.log(titreInput);
+  const categorieInput = document.getElementById('selectCategorie').value;
+  console.log(categorieInput);
+  const validerBtn = document.getElementById("modal-btn-valider");
+
+  // Vérifier si les champs sont remplis
+  if (imageInput && titreInput && categorieInput) {
+      // Activer le bouton "submit"
+     
+      validerBtn.classList.remove('valider');
+      validerBtn.classList.add('modal-btn-envoyer');
+      console.log('le bouton envoyer est Activé');
+  } else {
+      // Désactiver le bouton "submit"
+      
+      console.log('le bouton envoyer est desactivé');
+      validerBtn.classList.remove('modal-btn-envoyer');
+      validerBtn.classList.add('valider');
+  }
+};
+document.addEventListener('DOMContentLoaded', () => {
+  const titreInput = document.getElementById('titreNouvelleImage');
+
+  // Ajouter un écouteur d'événements pour détecter les changements dans le champ titre
+  titreInput.addEventListener('input', () => {
+    alert('La valeur du champ titre a changé !');
+  });
+});

@@ -232,6 +232,7 @@ li:hover {
 
 }
 
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -352,13 +353,24 @@ footer nav ul {
 	display: none;
 }
 
+.alertajout {
+	
+	font-family: 'Work Sans';
+	font-size: 22px;
+	font-style: oblique;
+	color: red;
+	display: none;
+	justify-content: center;
+}
+
 .barre-grise {
 	
-    height: 3px; /* Hauteur de la barre */
-    width: 48%; /* Largeur de la barre */
-	margin-left: 160px;
-	margin-bottom: 15px;
+    height: 1px; /* Hauteur de la barre */
+    width: 90%; /* Largeur de la barre */
+	margin-left: 30px;
+	margin-bottom: 35px;
     background-color: #B3B3B3; /* Couleur de la barre */
+	
 
 
 }
@@ -433,7 +445,7 @@ footer nav ul {
 	background-color:  white;
 	border: none;
 	color: #000000;
-margin-right: 585px;
+margin-right: 580px;
 }
 
 .close-btn {
@@ -452,12 +464,14 @@ margin-right: 585px;
 }
 
 .thumbnail {
-	width: 76.61px;
+	width: 550px;
+	height: 480px ;
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	margin-left: 40px;
-	padding-bottom: 220px;
+	margin-bottom: 20px;
 	position: relative;
+	overflow: auto;
 
 	
 }
@@ -473,7 +487,8 @@ margin-right: 585px;
 }
 
 .titremodal {
-	color: #000000 !important;
+	color: #000000;
+
 }
 .Ajouter-modal{
 	display:flex;
@@ -485,11 +500,11 @@ margin-right: 585px;
 
 .mainConteneur {
 	display:flex;
-	height: 400px;
+	height: auto;
 	flex-direction:column;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 124px;
+	margin-bottom: 50px;
 
 
 }
@@ -521,8 +536,8 @@ margin-top: 20px;
 background-color: #E8F1F6;
 width: 100%;
 height: 250px;
-margin-bottom: 40px;
-margin-top: 45px;
+margin-bottom: 20px;
+margin-top: 25px;
 
 }
 
@@ -599,8 +614,8 @@ border-radius: 60px;
 	height: 17px;
 	width: 17px;
 position: relative;
-top: -125px; 
-right: -74px; 
+top: -118px; 
+right: -68px; 
 
 	}
 	
