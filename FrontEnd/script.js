@@ -3,6 +3,8 @@ let categories;
 let travaux;
 let modal = null;
 let imageUrl;
+let imageFile = '';
+let imageInput = '';
 
 
 /**
@@ -599,6 +601,7 @@ const Imageuser = () => {
 
   imageInput.addEventListener('change', () => {
     const files = imageInput.files;
+    console.log('ceci est la valeur de imageUrl' + files);
 
     if (files && files.length > 0) {
       const file = files[0];
@@ -617,7 +620,8 @@ const Imageuser = () => {
           imagePreview.classList.add('image-preview');
           imagePreview.id = 'imagePreview';
           imageUrl = e.target.result;
-          checkInputs();          
+          console.log('ceci est la valeur de imageUrl' + imageUrl);
+       
           const ensembleImage = document.getElementById('ensembleImage');
           if (ensembleImage) {
             ensembleImage.innerHTML = '';
@@ -625,7 +629,7 @@ const Imageuser = () => {
 
           ensembleImage.appendChild(imagePreviewContainer);
           imagePreviewContainer.appendChild(imagePreview);
-        
+        console.log('ceci est la valeur de image preview' + imagePreview);
 
         };
         reader.readAsDataURL(file);
@@ -665,7 +669,7 @@ const sendimage = async () => {
   }
 
 
-  const imageFile = await fetch(imageUrl)
+   imageFile = await fetch(imageUrl)
     .then(response => response.blob())
     .then(blob => new File([blob], 'image.jpg', { type: 'image/jpeg' }));
   console.log(imageFile);
@@ -697,8 +701,12 @@ const sendimage = async () => {
 // verification des elements indiqué dans le formulaire modal
 function checkInputs() {
   const imageInput = document.getElementById('btnAjouterImage').value;
+  console.log(imageInput);
+  console.log(imageFile);
   const titreInput = document.getElementById('titreNouvelleImage').value;
+  console.log(titreInput);
   const categorieInput = document.getElementById('selectCategorie').value;
+  console.log(categorieInput);
   const validerBtn = document.getElementById("modal-btn-valider");
 
   // Vérifier si les champs sont remplis
