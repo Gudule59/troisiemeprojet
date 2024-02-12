@@ -405,22 +405,7 @@ const openModalAjout = async function (event) {
     clearModalContent();
     modal.addEventListener("click", closeModal);
 
-    // Ajouter un écouteur d'événements sur la soumission du formulaire
-envoyerImage.addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  // Récupérer les valeurs des champs du formulaire
-  const image = document.getElementById('imagePreviewContainer').value;
-  const titre = document.getElementById('titreNouvelleImage').value;
-  const categorie = document.getElementById('selectCategorie').value;
-
-  // Créer un objet avec les données à envoyer
-  const postData = {
-    title: titre,
-    imageUrl: image,
-    categoryId: categorie,
-  };
-})};
+};
   };
 
 /** permet de creer la modal pour voir voir la gallery et supprimer des travaux  */
@@ -661,7 +646,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Sélectionner le formulaire
 const envoyerImage = document.getElementById('mainConteneur');
 
-fillSelectWithOptions();
-  
 
 });
