@@ -4,6 +4,7 @@ let travaux;
 let modal = null;
 let imageUrl;
 
+
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
  */
@@ -312,6 +313,15 @@ const displayAjouterModal = async (travaux) => {
     const modalBtn = document.querySelector('.modal-btn');
     modalBtn.justifyContent = "end";
     modal.addEventListener("click", closeModal);
+// Ajouter des écouteurs d'événements aux champs requis
+const imageInput = document.getElementById('btnAjouterImage');
+const titreInput = document.getElementById('titreNouvelleImage');
+const categorieInput = document.getElementById('selectCategorie');
+
+imageInput.addEventListener('change', checkInputs);
+titreInput.addEventListener('input', checkInputs);
+categorieInput.addEventListener('input', checkInputs);
+
   }
 
 
@@ -607,8 +617,7 @@ const Imageuser = () => {
           imagePreview.classList.add('image-preview');
           imagePreview.id = 'imagePreview';
           imageUrl = e.target.result;
-          checkInputs();
-
+          checkInputs();          
           const ensembleImage = document.getElementById('ensembleImage');
           if (ensembleImage) {
             ensembleImage.innerHTML = '';
@@ -616,7 +625,7 @@ const Imageuser = () => {
 
           ensembleImage.appendChild(imagePreviewContainer);
           imagePreviewContainer.appendChild(imagePreview);
-
+        
 
         };
         reader.readAsDataURL(file);
@@ -688,25 +697,50 @@ const sendimage = async () => {
 // verification des elements indiqué dans le formulaire modal
 function checkInputs() {
   const imageInput = document.getElementById('btnAjouterImage').value;
-  console.log(imageInput);
   const titreInput = document.getElementById('titreNouvelleImage').value;
-  console.log(titreInput);
   const categorieInput = document.getElementById('selectCategorie').value;
-  console.log(categorieInput);
   const validerBtn = document.getElementById("modal-btn-valider");
 
   // Vérifier si les champs sont remplis
   if (imageInput && titreInput && categorieInput) {
     // Activer le bouton "submit"
-
     validerBtn.classList.remove('valider');
     validerBtn.classList.add('modal-btn-envoyer');
-    console.log('le bouton envoyer est Activé');
+    console.log('Le bouton envoyer est activé');
   } else {
     // Désactiver le bouton "submit"
-
-    console.log('le bouton envoyer est desactivé');
     validerBtn.classList.remove('modal-btn-envoyer');
     validerBtn.classList.add('valider');
+    console.log('Le bouton envoyer est désactivé');
   }
-};
+}
+
+
+
+/*/ Ajout d'un écouteur d'événements input sur imageInput
+imageInput = document.getElementById('btnAjouterImage');
+imageInput.addEventListener('input', checkInputs);
+
+// Ajout d'un écouteur d'événements input sur titreInput
+ titreInput = document.getElementById('titreNouvelleImage');
+titreInput.addEventListener('input', checkInputs);
+
+
+
+imageInput = document.getElementById('imageInput');
+imageInput.addEventListener('change', function() {
+  imageInput = imageInput.value;
+  console.log("Changement de catégorie détecté :", imageInput);
+  // Vérification des champs après chaque changement de catégorie
+  checkInputs();
+});
+
+// Ajout d'un écouteur d'événements input sur titreInput
+titreInput = document.getElementById('titreNouvelleImage');
+titreInput.addEventListener('input', function() {
+  titreInput = titreInput.value;
+  console.log("Changement de titre détecté :", titreInput);
+  // Vérification des champs après chaque changement de titre
+  checkInputs();
+});
+ */
