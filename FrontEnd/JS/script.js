@@ -4,7 +4,7 @@ let travaux;
 let modal = null;
 let imageUrl;
 let imageInput = '';
-
+let saveBtn = '';
 
 /**
  * fonction asynchrone qui récupère les catégories (Utilisation de THEN et ASYNC / AWAIT)
@@ -490,7 +490,7 @@ const Imageuser = () => {
 
   imageInput.addEventListener('change', () => {
     const files = imageInput.files;
-    console.log('ceci est la valeur de imageUrl' + files);
+   
 
     if (files && files.length > 0) {
       const file = files[0];
@@ -509,16 +509,16 @@ const Imageuser = () => {
           imagePreview.classList.add('image-preview');
           imagePreview.id = 'imagePreview';
           imageUrl = e.target.result;
-          console.log('ceci est la valeur de imageUrl' + imageUrl);
-       
+         
+          saveBtn = document.getElementById('btnAjouterImage');
           const ensembleImage = document.getElementById('ensembleImage');
           if (ensembleImage) {
             ensembleImage.innerHTML = '';
        }
-
+       
           ensembleImage.appendChild(imagePreviewContainer);
           imagePreviewContainer.appendChild(imagePreview);
-        console.log('ceci est la valeur de image preview' + imagePreview);
+       
 
         };
         reader.readAsDataURL(file);
@@ -561,7 +561,7 @@ const sendimage = async () => {
    imageFile = await fetch(imageUrl)
     .then(response => response.blob())
     .then(blob => new File([blob], 'image.jpg', { type: 'image/jpeg' }));
-  console.log(imageFile);
+  
   const formData = new FormData();
   formData.append('image', imageFile);
   formData.append('title', titre);
@@ -576,7 +576,7 @@ const sendimage = async () => {
     });
 
     if (response.ok) {
-      console.log('Nouveau projet envoyé avec succès!');
+    
       window.location.href = "./index.html";
     } else {
       console.error('Erreur lors de l\'envoi du nouveau projet:', response.statusText);
@@ -589,26 +589,22 @@ const sendimage = async () => {
 
 // verification des elements indiqué dans le formulaire modal
 function checkInputs() {
-  const imageInput = document.getElementById('btnAjouterImage');
-  console.log(imageInput);
-
+    
   const titreInput = document.getElementById('titreNouvelleImage').value;
-  console.log(titreInput);
   const categorieInput = document.getElementById('selectCategorie').value;
-  console.log(categorieInput);
   const validerBtn = document.getElementById("modal-btn-valider");
 
   // Vérifier si les champs sont remplis
-  if (imageInput && titreInput && categorieInput) {
+  if (saveBtn && titreInput && categorieInput) {
     // Activer le bouton "submit"
     validerBtn.classList.remove('valider');
     validerBtn.classList.add('modal-btn-envoyer');
-    console.log('Le bouton envoyer est activé');
+    
   } else {
     // Désactiver le bouton "submit"
     validerBtn.classList.remove('modal-btn-envoyer');
     validerBtn.classList.add('valider');
-    console.log('Le bouton envoyer est désactivé');
+  
   }
 }
 
@@ -669,31 +665,3 @@ fillSelectWithOptions();
   
 
 });
-
-/*/ Ajout d'un écouteur d'événements input sur imageInput
-imageInput = document.getElementById('btnAjouterImage');
-imageInput.addEventListener('input', checkInputs);
-
-// Ajout d'un écouteur d'événements input sur titreInput
- titreInput = document.getElementById('titreNouvelleImage');
-titreInput.addEventListener('input', checkInputs);
-
-
-
-imageInput = document.getElementById('imageInput');
-imageInput.addEventListener('change', function() {
-  imageInput = imageInput.value;
-  console.log("Changement de catégorie détecté :", imageInput);
-  // Vérification des champs après chaque changement de catégorie
-  checkInputs();
-});
-
-// Ajout d'un écouteur d'événements input sur titreInput
-titreInput = document.getElementById('titreNouvelleImage');
-titreInput.addEventListener('input', function() {
-  titreInput = titreInput.value;
-  console.log("Changement de titre détecté :", titreInput);
-  // Vérification des champs après chaque changement de titre
-  checkInputs();
-});
- */
