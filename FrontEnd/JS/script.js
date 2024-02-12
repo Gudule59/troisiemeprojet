@@ -3,7 +3,6 @@ let categories;
 let travaux;
 let modal = null;
 let imageUrl;
-let imageFile = '';
 let imageInput = '';
 
 
@@ -23,8 +22,7 @@ const getCategories = async () => {
       }
     })
     .then((data) => {
-      // console.log(data);
-      // une fois qu'on a les données de l'API, on alimente la variable globale (categories) avec les données
+          // une fois qu'on a les données de l'API, on alimente la variable globale (categories) avec les données
       categories = data;
     });
 };
@@ -35,9 +33,7 @@ const getCategories = async () => {
 const getWorks = async () => {
   try {
     const response = await fetch("http://localhost:5678/api/works");
-    // console.log(response);
     const data = await response.json();
-    // console.table(data);
     return data;
   } catch (error) {
     console.log(`Un erreur est survenue : ${error}`);
@@ -96,7 +92,6 @@ const displayFilters = (categories) => {
 const filterByCategory = (idCategory) => {
   const gallery = document.querySelector("#portfolio .gallery");
   const elements = gallery.querySelectorAll("article");
-  console.log(elements);
   elements.forEach((element) => {
     const elementCategory = element.getAttribute("categoryId");
 
@@ -108,6 +103,8 @@ const filterByCategory = (idCategory) => {
   });
 };
 
+
+
 /**
  * Function to check if the user is connected using a stored token.
  *
@@ -115,7 +112,7 @@ const filterByCategory = (idCategory) => {
  */
 function checkConnexion() {
   const token = localStorage.getItem("token");
-  console.log(token);
+  
   if (token) {
     return true;
   } else {
@@ -136,7 +133,6 @@ function displayContext() {
   const loginBtn = document.getElementById("loginLogoutLink");
 
   const state = checkConnexion();
-  console.log(`Connecté : ${state}`);
 
   if (state) {
     modifBtn.style.display = "flex";
@@ -174,45 +170,6 @@ function login(event) {
   event.preventDefault();
   window.location.href = "./login.html";
 }
-
-
-const fillSelectWithOptions = async () => {  // Recuperation des categories et integration au bouton select
-  const selectCategorie = document.querySelector('.selectCategorie');
-
-
-  try {
-    // Appel à la fonction getCategories pour récupérer les catégories depuis l'API
-    await getCategories();
-
-    if (categories && categories.length > 0) {
-      // Ajout de l'option vide par défaut
-      const defaultOption = document.createElement('option');
-      defaultOption.value = ''; // La valeur de l'option vide est vide
-      defaultOption.textContent = ''; // Texte à afficher dans l'option vide
-      defaultOption.selected = true; // Option sélectionnée par défaut
-      selectCategorie.appendChild(defaultOption);
-
-      // Parcourez les catégories et ajoutez-les au bouton select
-      categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category.id;
-        option.textContent = category.name;
-        selectCategorie.appendChild(option);
-
-      });
-    } else {
-      console.log("Aucune catégorie n'a été récupérée depuis l'API.");
-    }
-  } catch (error) {
-    console.error("Une erreur s'est produite lors du chargement des catégories :", error);
-  }
-
-};
-
-// Exécutez fillSelectWithOptions lorsque le DOM est entièrement chargé
-document.addEventListener('DOMContentLoaded', async () => {
-  await fillSelectWithOptions(); // Attendre que fillSelectWithOptions se termine
-});
 
 
 const creationElementModalAjouter = async () => {
@@ -325,7 +282,38 @@ titreInput.addEventListener('input', checkInputs);
 categorieInput.addEventListener('input', checkInputs);
 
   }
+};
 
+const fillSelectWithOptions = async () => {  // Recuperation des categories et integration au bouton select
+  const selectCategorie = document.querySelector('.selectCategorie');
+
+
+  try {
+    // Appel à la fonction getCategories pour récupérer les catégories depuis l'API
+    await getCategories();
+
+    if (categories && categories.length > 0) {
+      // Ajout de l'option vide par défaut
+      const defaultOption = document.createElement('option');
+      defaultOption.value = ''; // La valeur de l'option vide est vide
+      defaultOption.textContent = ''; // Texte à afficher dans l'option vide
+      defaultOption.selected = true; // Option sélectionnée par défaut
+     selectCategorie.appendChild(defaultOption);
+
+      // Parcourez les catégories et ajoutez-les au bouton select
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        selectCategorie.appendChild(option);
+
+      });
+    } else {
+      console.log("Aucune catégorie n'a été récupérée depuis l'API.");
+    }
+  } catch (error) {
+    console.error("Une erreur s'est produite lors du chargement des catégories :", error);
+  }
 
 };
 
@@ -368,7 +356,6 @@ const displayThumbnailsModal = (travaux) => {
 const deleteTravaux = (workId) => {
 
   const token = localStorage.getItem("token");
-  console.log('je verifie le token => ' + token)
 
   fetch(`http://localhost:5678/api/works/${workId}`, {
     method: 'DELETE',
@@ -393,7 +380,6 @@ const deleteTravaux = (workId) => {
 
 /** permet de creer la modal pour ajouter des images   */
 const openModalAjout = async function (event) {
-  console.log(event);
   event.preventDefault();
   titreGaleriemodal = document.getElementById('titremodal');
   titreGaleriemodal.textContent = "Ajouter une photo";
@@ -418,13 +404,27 @@ const openModalAjout = async function (event) {
     modalBtnEnvoyer.style.display = "none";
     clearModalContent();
     modal.addEventListener("click", closeModal);
-  }
 
-};
+    // Ajouter un écouteur d'événements sur la soumission du formulaire
+envoyerImage.addEventListener('submit', function (event) {
+  event.preventDefault();
+
+  // Récupérer les valeurs des champs du formulaire
+  const image = document.getElementById('imagePreviewContainer').value;
+  const titre = document.getElementById('titreNouvelleImage').value;
+  const categorie = document.getElementById('selectCategorie').value;
+
+  // Créer un objet avec les données à envoyer
+  const postData = {
+    title: titre,
+    imageUrl: image,
+    categoryId: categorie,
+  };
+})};
+  };
 
 /** permet de creer la modal pour voir voir la gallery et supprimer des travaux  */
 const openModal = async function (event) {
-  console.log(event);
   event.preventDefault();
   titreGaleriemodal = document.getElementById('titremodal');
   titreGaleriemodal.textContent = "Galerie Photo";
@@ -482,118 +482,7 @@ const closeModal = function (event) {
   modal = null;
 };
 
-/**
- * Au chargement de la page (une fois que le DOM est chargé correctement)
- */
-document.addEventListener("DOMContentLoaded", async function () {
-  // affichage contextualisé des boutons et bandeau
-  displayContext();
 
-
-  // Événement pour le bouton de connexion
-  const loginBtn = document.getElementById("loginLogoutLink");
-  loginBtn.addEventListener("click", function (event) {
-    const state = checkConnexion();
-    if (state) {
-      logout(event);
-    } else {
-      login(event);
-    }
-  });
-
-  // exécution de la fonction permettant d'alimenter la variable works
-  const works = await getWorks();
-  console.log(works);
-
-  // exécution de la fonction permettant d'alimenter la variable globale categories
-  await getCategories();
-  console.log(categories);
-
-  // exécution de la fonction qui affiche les travaux
-  displayWorks(works);
-
-  // exécution de la fonction qui affiche les filtres
-  displayFilters(categories);
-
-  // Evénement Filtre par catégorie
-  const filtre = document.querySelector("#portfolio .filtre");
-  filtre.addEventListener("click", (event) => {
-    if (event.target.tagName === "BUTTON") {
-      const idCategory = event.target.getAttribute("data-categorie-id");
-      filterByCategory(idCategory);
-    }
-  });
-
-  // Evenement pour ouvrir la modale
-  const modifBtn = document.getElementById("modif");
-  modifBtn.addEventListener("click", openModal);
-
-  const backBtn = document.getElementById("back-btn");
-  backBtn.addEventListener("click", openModal);
-
-  const modalBtnEnvoyer = document.getElementById("modal-btn-envoyer");
-  modalBtnEnvoyer.addEventListener("click", openModalAjout);
-});
-document.addEventListener('DOMContentLoaded', function () {
-  // Sélectionner le formulaire
-  const envoyerImage = document.getElementById('mainConteneur');
-
-  // Ajouter un écouteur d'événements sur la soumission du formulaire
-  envoyerImage.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    // Récupérer les valeurs des champs du formulaire
-    const image = document.getElementById('imagePreviewContainer').value;
-    const titre = document.getElementById('titreNouvelleImage').value;
-    const categorie = document.getElementById('selectCategorie').value;
-
-    // Créer un objet avec les données à envoyer
-    const postData = {
-      title: titre,
-      imageUrl: image,
-      categoryId: categorie,
-    };
-
-    // Configuration de la requête
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    };
-
-    // Effectuer la requête
-    fetch("http://localhost:5678/api/works", requestOptions)
-      .then((response) => {
-        if (response.ok) {
-          //console.log(response.json());
-          return response.json();
-        } else {
-          console.log("la requête n'a pas abouti");
-          const msg = document.getElementById("alert");
-          msg.style.display = "block";
-          throw new Error("Identifiants incorrects");
-        }
-      })
-      .then((data) => {
-        // données renvoyées par l'API
-        console.log("Information sur la recuperation du TOKEN :", data);
-
-        const token = data.token;
-        console.log(token);
-        localStorage.setItem("token", token.toString());
-
-
-        window.location.href = "./index.html";
-      })
-      .catch((error) => {
-        // Gérer les erreurs
-        console.error("Erreur de requête vers l'API:", error);
-        //alert("Identifiants incorrects. Veuillez réessayer.");
-      });
-  });
-})
 // Ajoute la photo dans la modal ajout photo;
 const Imageuser = () => {
   const imageInput = document.getElementById('btnAjouterImage');
@@ -723,7 +612,63 @@ function checkInputs() {
   }
 }
 
+// Événement DOM Content Loaded
+document.addEventListener('DOMContentLoaded', async () => {
+  // Appels de toutes les fonctions à exécuter une fois le DOM chargé
+  
+  displayContext();
 
+
+  // Événement pour le bouton de connexion
+  const loginBtn = document.getElementById("loginLogoutLink");
+  loginBtn.addEventListener("click", function (event) {
+    const state = checkConnexion();
+    if (state) {
+      logout(event);
+    } else {
+      login(event);
+    }
+  });
+
+  // exécution de la fonction permettant d'alimenter la variable works
+  const works = await getWorks();
+ 
+  // exécution de la fonction permettant d'alimenter la variable globale categories
+  await getCategories();
+
+  // exécution de la fonction qui affiche les travaux
+  displayWorks(works);
+
+  // exécution de la fonction qui affiche les filtres
+  displayFilters(categories);
+
+  // Evénement Filtre par catégorie
+  const filtre = document.querySelector("#portfolio .filtre");
+  filtre.addEventListener("click", (event) => {
+    if (event.target.tagName === "BUTTON") {
+      const idCategory = event.target.getAttribute("data-categorie-id");
+      filterByCategory(idCategory);
+    }
+});
+
+  // Evenement pour ouvrir la modale
+  const modifBtn = document.getElementById("modif");
+  modifBtn.addEventListener("click", openModal);
+
+  const backBtn = document.getElementById("back-btn");
+  backBtn.addEventListener("click", openModal);
+
+  const modalBtnEnvoyer = document.getElementById("modal-btn-envoyer");
+  modalBtnEnvoyer.addEventListener("click", openModalAjout);
+
+
+// Sélectionner le formulaire
+const envoyerImage = document.getElementById('mainConteneur');
+
+fillSelectWithOptions();
+  
+
+});
 
 /*/ Ajout d'un écouteur d'événements input sur imageInput
 imageInput = document.getElementById('btnAjouterImage');
