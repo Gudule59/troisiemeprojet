@@ -234,7 +234,8 @@ li:hover {
 
 
 .gallery {
-	width: 100%;
+	margin-left: 60px;
+	max-width: 1000px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
