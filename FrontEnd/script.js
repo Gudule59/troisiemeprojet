@@ -625,7 +625,7 @@ const Imageuser = () => {
           const ensembleImage = document.getElementById('ensembleImage');
           if (ensembleImage) {
             ensembleImage.innerHTML = '';
-          }
+       }
 
           ensembleImage.appendChild(imagePreviewContainer);
           imagePreviewContainer.appendChild(imagePreview);
@@ -700,9 +700,9 @@ const sendimage = async () => {
 
 // verification des elements indiqué dans le formulaire modal
 function checkInputs() {
-  const imageInput = document.getElementById('btnAjouterImage').value;
+  const imageInput = document.getElementById('btnAjouterImage');
   console.log(imageInput);
-  console.log(imageFile);
+
   const titreInput = document.getElementById('titreNouvelleImage').value;
   console.log(titreInput);
   const categorieInput = document.getElementById('selectCategorie').value;
