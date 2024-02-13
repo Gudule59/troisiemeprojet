@@ -44,20 +44,39 @@ const getWorks = async () => {
  * Fonction qui affiche les travaux dans la page
  */
 const displayWorks = (travaux) => {
+  const gallery = document.querySelector("#portfolio .gallery");
+
+  // Effacer la galerie existante avant d'ajouter les nouveaux travaux
+  gallery.innerHTML = '';
+
   travaux.forEach((works) => {
-    const gallery = document.querySelector("#portfolio .gallery");
     const projetElement = document.createElement("article");
     projetElement.setAttribute("categoryId", works.category.id);
 
     const imageElement = document.createElement("img");
     imageElement.src = works.imageUrl;
+
     const titreElement = document.createElement("p");
     titreElement.innerText = works.title;
 
-    gallery.appendChild(projetElement);
     projetElement.appendChild(imageElement);
     projetElement.appendChild(titreElement);
+
+    gallery.appendChild(projetElement);
   });
+};
+
+
+const updateWorkDisplay = async () => {
+  try {
+    // Récupérer les travaux actualisés depuis le serveur
+    const travaux = await getWorks(); // Assurez-vous d'avoir une fonction pour récupérer les travaux actualisés
+    
+    // Afficher les travaux actualisés sur la page
+    displayWorks(travaux); // Assurez-vous que cette fonction met à jour l'affichage des travaux sur la page
+  } catch (error) {
+    console.error('Une erreur s\'est produite lors de la récupération des travaux actualisés :', error);
+  }
 };
 
 /**
@@ -82,9 +101,10 @@ const displayFilters = (categories) => {
     bouton.setAttribute("data-categorie-id", category.id);
     filtre.appendChild(bouton);
   });
-
-
 };
+
+
+
 
 /**
  * Fonction qui permet de filtrer les travaux par catégorie
@@ -92,6 +112,7 @@ const displayFilters = (categories) => {
 const filterByCategory = (idCategory) => {
   const gallery = document.querySelector("#portfolio .gallery");
   const elements = gallery.querySelectorAll("article");
+  
   elements.forEach((element) => {
     const elementCategory = element.getAttribute("categoryId");
 
@@ -106,9 +127,9 @@ const filterByCategory = (idCategory) => {
 
 
 /**
- * Function to check if the user is connected using a stored token.
+ * verification si on est connecté grace au token
  *
- * @return {boolean} true if connected, false if not connected
+ * @return {boolean} true on est connecté false non connecté
  */
 function checkConnexion() {
   const token = localStorage.getItem("token");
@@ -337,10 +358,25 @@ const displayThumbnailsModal = (travaux) => {
     imageDelete.classList.add('delete-btn');
     const icon = document.createElement('i');
     icon.classList.add('fas', 'fa-trash');
-    // Ajoutez un gestionnaire d'événements au bouton si nécessaire
-    imageDelete.addEventListener('click', () => {
-      deleteTravaux(works.id)
+
+   
+    // Ajouter le gestionnaire d'événements à l'extérieur
+    imageDelete.addEventListener('click', async (event) => {
+      event.preventDefault();
+    
+      try {
+        await deleteTravaux(works.id);
+        
+        // Mettre à jour l'affichage des travaux sur la page
+        updateWorkDisplay(travaux); // Cette fonction doit être définie pour mettre à jour l'affichage des travaux
+      } catch (error) {
+        console.error('Une erreur s\'est produite lors de la suppression du travail :', error);
+      }
     });
+ 
+      
+
+///////////////////////////////////////////////////////////////////////////
 
     modal.insertAdjacentElement('afterend', article);
     article.appendChild(gallerieImage);
@@ -352,10 +388,13 @@ const displayThumbnailsModal = (travaux) => {
   });
 
 };
+
+
 /** permet de supprimer des travaux  */
 const deleteTravaux = (workId) => {
 
   const token = localStorage.getItem("token");
+
 
   fetch(`http://localhost:5678/api/works/${workId}`, {
     method: 'DELETE',
@@ -376,7 +415,13 @@ const deleteTravaux = (workId) => {
       console.error('Erreur:', error);
     });
 };
+///////////////////////////////
 
+
+
+
+
+/////////////////////////////////////////////////////////////////////
 
 /** permet de creer la modal pour ajouter des images   */
 const openModalAjout = async function (event) {
@@ -389,7 +434,6 @@ const openModalAjout = async function (event) {
   const closebtn = modal.querySelector('.close-btn');
   closebtn.addEventListener('click', closeModal);
   displayAjouterModal();
-
 
 
   if (modalAjout) {
@@ -420,8 +464,6 @@ const openModal = async function (event) {
   closebtn.addEventListener('click', closeModal);
   const works = await getWorks(); // on attends les elements de l'api
   displayThumbnailsModal(works); // on les ajoutent
-
-
 
   if (modal) {
     modal.style.display = "flex";
@@ -467,6 +509,13 @@ const closeModal = function (event) {
   modal = null;
 };
 
+const closeEnvoyer = function (event) {
+  clearModalContent();
+  clearAjoutImageModal();
+  modal.style.display = "none";
+  modal.removeEventListener("click", closeModal);
+  modal = null;
+};
 
 // Ajoute la photo dans la modal ajout photo;
 const Imageuser = () => {
@@ -515,43 +564,56 @@ const Imageuser = () => {
   });
 };
 
+
+
+
+
+
 // gestion de l'envoi d'image vers l'api
 
-const sendimage = async () => {
+const sendimage = async (event) => {
+  event.preventDefault(); // Empêcher le rechargement de la page
+
   const token = localStorage.getItem("token");
   const titre = document.getElementById('titreNouvelleImage').value;
   const categorie = document.getElementById('selectCategorie').value;
 
-
+  // Vérifier si les champs sont remplis
   if (!imageUrl) {
+    // Afficher un message d'erreur
     MessageErreur = document.getElementById('MessageErreur');
     MessageErreur.textContent = "Veuillez sélectionner une image.";
     MessageErreur.style.display = "flex";
-    return; // Arrêter la fonction si le titre ou l'image est manquant
+    return;
   }
   if (!titre) {
+    // Afficher un message d'erreur
     MessageErreur = document.getElementById('MessageErreur');
     MessageErreur.textContent = "Veuillez ajouter un titre.";
     MessageErreur.style.display = "flex";
     return;
   }
   if (!categorie) {
+    // Afficher un message d'erreur
     MessageErreur = document.getElementById('MessageErreur');
     MessageErreur.textContent = "Veuillez ajouter une catégorie.";
     MessageErreur.style.display = "flex";
     return;
   }
 
-
-   imageFile = await fetch(imageUrl)
-    .then(response => response.blob())
-    .then(blob => new File([blob], 'image.jpg', { type: 'image/jpeg' }));
-  
-  const formData = new FormData();
-  formData.append('image', imageFile);
-  formData.append('title', titre);
-  formData.append('category', categorie);
   try {
+    // Convertir l'image en blob
+    const imageFile = await fetch(imageUrl)
+      .then(response => response.blob())
+      .then(blob => new File([blob], 'image.jpg', { type: 'image/jpeg' }));
+  
+    // Créer un objet FormData pour envoyer les données
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    formData.append('title', titre);
+    formData.append('category', categorie);
+
+    // Envoyer les données au serveur
     const response = await fetch('http://localhost:5678/api/works', {
       method: 'POST',
       headers: {
@@ -561,8 +623,9 @@ const sendimage = async () => {
     });
 
     if (response.ok) {
-    
-      window.location.href = "./index.html";
+      // Mettre à jour l'affichage des travaux
+      updateWorkDisplay();
+      closeEnvoyer();
     } else {
       console.error('Erreur lors de l\'envoi du nouveau projet:', response.statusText);
     }
@@ -570,8 +633,6 @@ const sendimage = async () => {
     console.error('Une erreur s\'est produite: ', error);
   }
 };
-
-
 // verification des elements indiqué dans le formulaire modal
 function checkInputs() {
     
@@ -582,6 +643,7 @@ function checkInputs() {
   // Vérifier si les champs sont remplis
   if (saveBtn && titreInput && categorieInput) {
     // Activer le bouton "submit"
+  
     validerBtn.classList.remove('valider');
     validerBtn.classList.add('modal-btn-envoyer');
     
@@ -598,19 +660,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Appels de toutes les fonctions à exécuter une fois le DOM chargé
   
   displayContext();
-
-
-  // Événement pour le bouton de connexion
-  const loginBtn = document.getElementById("loginLogoutLink");
-  loginBtn.addEventListener("click", function (event) {
-    const state = checkConnexion();
-    if (state) {
-      logout(event);
-    } else {
-      login(event);
-    }
-  });
-
   // exécution de la fonction permettant d'alimenter la variable works
   const works = await getWorks();
  
