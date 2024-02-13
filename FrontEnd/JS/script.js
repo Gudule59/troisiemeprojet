@@ -407,6 +407,7 @@ const deleteTravaux = (workId) => {
       if (response.ok) {
         // L'image a été supprimée avec succès, vous pouvez faire quelque chose si nécessaire
         console.log('Image supprimée avec succès');
+        closeEnvoyer();
       } else {
         throw new Error('Erreur lors de la suppression de l\'image');
       }
